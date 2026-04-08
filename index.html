@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALL+ 全文克漏字挑戰</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes confetti {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+    .animate-confetti {
+      animation: confetti linear infinite;
+    }
+    /* 自訂捲軸樣式讓畫面更精緻 */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9; 
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1; 
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8; 
+    }
+  </style>
+</head>
+<body class="bg-slate-100 p-2 sm:p-6 font-sans selection:bg-indigo-200 pb-10">
+
+  <div id="app" class="w-full flex justify-center">
+    <!-- 內容將由 JavaScript 動態渲染 -->
+  </div>
+
+  <script>
+    // === 題庫資料 ===
+    const quizData = [
+      {
+        id: 'march16-17',
+        title: 'All+ March 16~17: QR Codes',
+        content: "Have you ever ___0___ a black-and-white square to pay for a meal, order at a restaurant, or enter a concert? QR codes have become an ___1___ part of daily life, ___2___ on everything from shop signs and tickets to even textbooks and museum walls. They may look simple, but these tiny patterns have an ___3___ history and some ___4___ smart technology behind them.\n\nQR codes were created in 1994 by Denso Wave, a Japanese company that ___5___ parts to Toyota. The company's factories ___6___ regular barcodes that were used to track products, but barcodes could only hold a small amount of data and needed ___7___ to scan properly. So, they designed a new kind of code... It could ___8___ much more information and be scanned from any direction. This made it a far faster and more ___9___ way to track auto parts.\n\n___10___, QR codes were mostly used by manufacturers... As smartphones grew ___11___, QR codes quickly became part of everyday life... During the COVID-19 ___12___, QR codes became especially important for ___13___, health forms, and digital menus. They became both a key tool and major symbol of the new ___14___ lifestyle that many people now rely on.\n\nThe ___15___ of QR codes goes beyond just saving time... Users can ___16___ websites, join events, or receive instant updates by simply scanning a code instead of typing long links or ___17___ forms. In this way, QR codes ___18___ a bridge between physical and digital worlds... From their modest start in car factories... QR codes have ___19___ how a seemingly simple invention can ___20___ significant change... They may be small, but these tiny squares have already ___21___ the way people all over share and receive information.",
+        blanks: [
+          { id: 0, correct: "scanned", explanation: "scan (掃描)。句意：你曾經掃描過黑白方格來付餐費嗎？" },
+          { id: 1, correct: "indispensable", explanation: "indispensable (不可或缺的)。QR碼已成為日常不可或缺的一部分。" },
+          { id: 2, correct: "appearing", explanation: "appearing (出現)。分詞構句，修飾前面的 QR codes。" },
+          { id: 3, correct: "intriguing", explanation: "intriguing (引人入勝的/有趣的)。" },
+          { id: 4, correct: "remarkably", explanation: "remarkably (非凡地/令人驚訝地)。修飾後面的 smart。" },
+          { id: 5, correct: "supplied", explanation: "supply (供應)。supply parts to... (供應零件給...)" },
+          { id: 6, correct: "had been using", explanation: "had been using (過去完成進行式)。表示在發明QR碼之前，工廠一直都在使用傳統條碼。" },
+          { id: 7, correct: "precise alignment", explanation: "precise alignment (精準的對齊)。傳統條碼需要對得很準才能掃描。" },
+          { id: 8, correct: "store", explanation: "store (儲存)。QR碼可以儲存更多資訊。" },
+          { id: 9, correct: "efficient", explanation: "efficient (有效率的)。" },
+          { id: 10, correct: "Initially", explanation: "Initially (起初/一開始)。" },
+          { id: 11, correct: "increasingly prevalent", explanation: "increasingly prevalent (越來越普及/盛行)。" },
+          { id: 12, correct: "pandemic", explanation: "pandemic (全球大流行疫情)。" },
+          { id: 13, correct: "contact tracing", explanation: "contact tracing (接觸史追蹤/實聯制)。" },
+          { id: 14, correct: "contactless", explanation: "contactless (無接觸的)。" },
+          { id: 15, correct: "impact", explanation: "impact (影響)。" },
+          { id: 16, correct: "access", explanation: "access (存取/進入)。進入網站。" },
+          { id: 17, correct: "filling out", explanation: "fill out (填寫表格)。前面有 instead of (介系詞)，所以用 V-ing。" },
+          { id: 18, correct: "act as", explanation: "act as (作為/充當)。作為實體與數位世界的橋樑。" },
+          { id: 19, correct: "demonstrated", explanation: "demonstrated (展示/證明)。" },
+          { id: 20, correct: "spark", explanation: "spark (引發)。引發重大改變。" },
+          { id: 21, correct: "dramatically altered", explanation: "dramatically altered (急遽地改變)。" }
+        ]
+      },
+      {
+        id: 'march18-19',
+        title: 'All+ March 18~19: Animals in Myth',
+        content: "When you think of a snake, what comes to mind (___0___ your mind / ___1___ you)? Many people ___2___ snakes with ___3___. This comes from the ___4___ story of Adam and Eve. In the story, a snake ___5___ Eve to eat the forbidden fruit, which causes God to kick humans out of ___6___.\n\nLions are traditionally ___7___ strength and courage. In ancient Egypt, the warrior goddess Sekhmet was ___8___ with a lion's head... Eagles have long been associated with power... they were a symbol of Jupiter, the Romans' ___9___.\n\nWolves have often been viewed with a huge amount of respect... the animals were important symbols of Roman identity and were ___10___ cruel treatment. In ___11___ Native American belief systems, wolves are seen as important ___12___ that teach people to hunt, with some tribes even claiming them as allies and ___13___ people from harming them.\n\n___14___ of owls ___15___ ___16___ across cultures. In ancient Greece, they were associated with Athena... However, in English folklore, they became linked with darkness and death ___17___ they come out at night. As late as the 19th century, English poets used the birds as symbols of ___18___, and similar views are also ___19___ among African and Native American peoples.\n\nThese traditions are fascinating, but it's important to remember that they have little ___20___ in reality. There is nothing ___21___ about snakes or scary about owls.",
+        blanks: [
+          { id: 0, correct: "crosses", explanation: "cross one's mind (浮現腦海)。" },
+          { id: 1, correct: "dawns on", explanation: "dawn on sb (使人突然明白/想起)。" },
+          { id: 2, correct: "associate", explanation: "associate A with B (將A與B聯想在一起)。" },
+          { id: 3, correct: "trickery", explanation: "trickery (狡詐/欺騙)。" },
+          { id: 4, correct: "biblical", explanation: "biblical (聖經的)。" },
+          { id: 5, correct: "convinces", explanation: "convince (說服)。" },
+          { id: 6, correct: "paradise", explanation: "paradise (天堂/伊甸園)。" },
+          { id: 7, correct: "representations of", explanation: "representations of (作為...的象徵/代表)。" },
+          { id: 8, correct: "depicted", explanation: "depicted (被描繪)。" },
+          { id: 9, correct: "chief deity", explanation: "chief deity (主神)。" },
+          { id: 10, correct: "spared", explanation: "spared (被免於遭受...)。免受殘酷對待。" },
+          { id: 11, correct: "numerous", explanation: "numerous (許多的)。" },
+          { id: 12, correct: "role models", explanation: "role models (楷模/榜樣)。" },
+          { id: 13, correct: "forbidding", explanation: "forbidding (禁止)。" },
+          { id: 14, correct: "Perceptions", explanation: "Perceptions (看法/認知)。" },
+          { id: 15, correct: "vary", explanation: "vary (不同/變化)。" },
+          { id: 16, correct: "radically", explanation: "radically (極端地/徹底地)。" },
+          { id: 17, correct: "because", explanation: "because / due to the fact that / in that (因為)。" },
+          { id: 18, correct: "impending doom", explanation: "impending doom (即將來臨的厄運)。" },
+          { id: 19, correct: "prevalent", explanation: "prevalent (普遍的/盛行的)。" },
+          { id: 20, correct: "basis", explanation: "basis (基礎/根據)。" },
+          { id: 21, correct: "inherently untrustworthy", explanation: "inherently untrustworthy (天生不可信的)。" }
+        ]
+      },
+      {
+        id: 'march20',
+        title: 'All+ March 20: The history of pockets',
+        content: "The history of pockets also reflects social values and gender roles. In the Middle Ages, both men and women wore small pouches ___0___ around their ___1___, since clothes had no built-in pockets... it wasn't ___2___ the early 17th century that pockets first appeared in women's fashion. These pockets typically ___3___ lightweight bags that were hidden under the many ___4___ of fabric women wore.\n\nAs time ___5___, men continued to enjoy jackets and trousers with ___6___ sewn-in pockets that allowed them to move freely. Women's clothing, on the other hand, became more ___7___. With the decorative and narrow silhouettes that became popular in the late 18th century, dresses no longer provided ___8___ room for pockets. Thus, women ___9___ lost the convenience of carrying personal items... This change reflected society's view that women should appear graceful rather than ___10___.\n\nBy the 19th century, men's pockets had become ___11___. However, women's pockets... remained mostly decorative or impractically small. Even though the women's rights movement ___12___ more practical clothing, true progress came slowly...\n\nIn the 20th century, pockets finally started to ___13___ in women's fashion. The 1920s saw shorter skirts and work uniforms that included real pockets. During World War II, women's workwear also featured strong, ___14___ designs. However, many high-end fashion brands still ___15___ style over function. They believed that visible pockets might ruin a smooth shape.\n\nIn the 21st century, social media movements have ___16___ of 'pocket ___17___.' As a result, more designers now create women's clothing with larger pockets. Today, pockets are seen not only as an essential aspect of fashion but also as a symbol of women's independence and equality.",
+        blanks: [
+          { id: 0, correct: "tied", explanation: "tied (綁著)。" },
+          { id: 1, correct: "waists", explanation: "waists (腰部)。" },
+          { id: 2, correct: "until", explanation: "it wasn't until... that... (直到...才...)。" },
+          { id: 3, correct: "consisted of", explanation: "consisted of / were made up of (由...組成)。" },
+          { id: 4, correct: "layers", explanation: "layers (層次)。" },
+          { id: 5, correct: "went on", explanation: "as time went on (隨著時間流逝)。" },
+          { id: 6, correct: "secure", explanation: "secure (安全的/牢固的)。" },
+          { id: 7, correct: "tight-fitting", explanation: "tight-fitting (緊身的)。" },
+          { id: 8, correct: "sufficient", explanation: "sufficient (足夠的)。" },
+          { id: 9, correct: "essentially", explanation: "essentially (本質上/基本上)。" },
+          { id: 10, correct: "practical", explanation: "practical (實用的)。" },
+          { id: 11, correct: "standard", explanation: "standard (標準的/標配的)。" },
+          { id: 12, correct: "advocated", explanation: "advocated (提倡/主張)。" },
+          { id: 13, correct: "make a comeback", explanation: "make a comeback (捲土重來/重新流行)。" },
+          { id: 14, correct: "functional", explanation: "functional (具功能性的/實用的)。" },
+          { id: 15, correct: "favored", explanation: "favored (偏好)。" },
+          { id: 16, correct: "raised awareness", explanation: "raised awareness (喚起意識)。" },
+          { id: 17, correct: "inequality", explanation: "inequality (不平等)。" }
+        ]
+      },
+      {
+        id: 'march24-26',
+        title: 'All+ March 24+26: What I Use AI For',
+        content: "As AI technology has become ___0___, people have found various ways to ___1___ it in their daily routines. The bar chart ___2___ the primary purposes ___3___ people report using AI chatbots. The most common purpose was learning and education, which was ___4___ by 1,402 of the ___5___, followed closely by work ___6___ at 1,248. Creative writing and casual conversation ___7___ 905 users...\n\nThese ___8___ reveal that people most commonly rely on AI to ___9___ and acquire knowledge. At the same time, the significant use of AI in creative applications ___10___ that many people see AI as a helpful tool for ___11___.\n\nPersonally, I use AI chatbots most frequently for learning purposes. For instance, when I ___12___ complex grammar structures... I can ask the chatbot for clear explanations and practical examples. This immediate feedback ___13___ my learning process. Beyond efficiency, what I value most is the ___14___ of AI. Unlike asking a person, I never feel ___15___ about asking basic questions or requesting multiple explanations of the same concept.",
+        blanks: [
+          { id: 0, correct: "increasingly accessible", explanation: "increasingly accessible (越來越容易取得/普及)。" },
+          { id: 1, correct: "make use of", explanation: "make use of (利用)。" },
+          { id: 2, correct: "illustrates", explanation: "illustrates (說明/圖解)。" },
+          { id: 3, correct: "for which", explanation: "for which (介系詞+關係代名詞，引導使用目的)。" },
+          { id: 4, correct: "cited", explanation: "cited (提及/引用)。" },
+          { id: 5, correct: "respondents", explanation: "respondents (受訪者)。" },
+          { id: 6, correct: "assistance", explanation: "assistance (協助/輔助)。" },
+          { id: 7, correct: "accounted for", explanation: "accounted for (佔了...)。" },
+          { id: 8, correct: "statistics", explanation: "statistics (統計數據)。" },
+          { id: 9, correct: "enhance productivity", explanation: "enhance productivity (提升生產力)。" },
+          { id: 10, correct: "indicates", explanation: "indicates (指出/顯示)。" },
+          { id: 11, correct: "imaginative endeavors", explanation: "imaginative endeavors (激發想像力的嘗試/創作)。" },
+          { id: 12, correct: "encounter", explanation: "encounter (遇到/遭遇)。" },
+          { id: 13, correct: "accelerates", explanation: "accelerates (加速)。" },
+          { id: 14, correct: "nonjudgmental nature", explanation: "nonjudgmental nature (不帶批判的特性)。" },
+          { id: 15, correct: "embarrassed", explanation: "embarrassed (感到尷尬的)。" }
+        ]
+      },
+      {
+        id: 'march27',
+        title: 'All+ March 27: Cultural Appropriation',
+        content: "___0___ social media, people can experience aspects of different cultures more easily than ever before... knowledge about other cultures is ___1___. While such cultural ___2___ can make life richer, they can sometimes cross the line (___3___ over the line) into cultural appropriation. This ___4___ important questions about how we ___5___ cultures different from our own.\n\nCultural appropriation happens when clothing, hairstyles, language, or symbols are used in ways that ignore their importance or history. This often occurs when members of a ___6___ group borrow from a ___7___ culture that has faced ___8___. For example... non-Native people have worn ___9___ versions of Native American headdresses just for style. They don't realize that in Native traditions, these items must be earned through acts of honor. When others wear them casually, it can feel ___10___... In contrast, cultural appreciation means showing ___11___ interest in a culture, learning about its history, and giving ___12___. For instance, enjoying Japanese tea ceremonies while respecting their traditions ___13___ cultural appreciation.\n\nHowever, the line between appreciation and appropriation is not always clear. One ___14___ conflict over this occurred in 2017 between Jeremy Lin and Kenyon Martin. Lin sported dreadlocks... This ___15___ Martin to criticize him on social media...\n\nTo avoid cultural appropriation, respect is essential. Before wearing or sharing something from another culture, it's important to ___16___ your intentions. Ask yourself whether you are honoring the culture or ___17___ it...",
+        blanks: [
+          { id: 0, correct: "Thanks to", explanation: "Thanks to (多虧/因為)。" },
+          { id: 1, correct: "readily accessible", explanation: "readily accessible (隨手可得的/容易取得的)。" },
+          { id: 2, correct: "exchanges", explanation: "exchanges (交流)。" },
+          { id: 3, correct: "stepping", explanation: "stepping (跨越/踩)。stepping over the line。" },
+          { id: 4, correct: "raises", explanation: "raises (引發)。raise questions (引發質疑)。" },
+          { id: 5, correct: "engage with", explanation: "engage with (與...互動)。" },
+          { id: 6, correct: "dominant", explanation: "dominant (主流的/強勢的)。" },
+          { id: 7, correct: "minority", explanation: "minority (少數的)。" },
+          { id: 8, correct: "discrimination", explanation: "discrimination (歧視)。" },
+          { id: 9, correct: "fake", explanation: "fake (仿造的/假的)。" },
+          { id: 10, correct: "disrespectful", explanation: "disrespectful (不尊重的)。" },
+          { id: 11, correct: "genuine", explanation: "genuine (真誠的)。" },
+          { id: 12, correct: "proper credit", explanation: "proper credit (應有的肯定/歸功)。" },
+          { id: 13, correct: "exemplifies", explanation: "exemplifies (作為...的典範)。" },
+          { id: 14, correct: "high-profile", explanation: "high-profile (備受矚目的)。" },
+          { id: 15, correct: "prompted", explanation: "prompted (促使)。" },
+          { id: 16, correct: "reflect on", explanation: "reflect on (反思/仔細思考)。" },
+          { id: 17, correct: "simply imitating", explanation: "simply imitating (僅僅模仿)。" }
+        ]
+      },
+      {
+        id: 'march30-31',
+        title: 'All+ March 30~31: Viral Foods',
+        content: "If you're on social media, you've probably ___0___ countless viral food trends. Platforms like TikTok and Instagram can ___1___ ___2___ unknown foods to global fame. Everything from decadent Dubai chocolate to ___3___ cottage cheese has enjoyed a moment in the ___4___, and entire businesses and careers now ___5___ on pure 'Instagramability.'\n\nAccording to Oxford ___6___ Charles Spence, foods such as Dubai chocolate go viral because they appeal to ___7___ senses. Their ___8___ colors make them ___9___, while their high-calorie content triggers our desire to eat them. Reaction videos, in which creators show ___10___ while tasting food, also shape how we think we should feel. In addition, many viral foods ___11___ in faraway countries, giving them an ___12___ that captures viewers' curiosity. Content creators further boost engagement by using ___13___ titles... Once a video receives enough views or comments, social media ___14___ push it to more users' feeds...\n\nAlthough social media ___15___ these viral food trends, their effects often ___16___ the offline world. Some products experience supply shortages when interest suddenly ___17___. For example, in 2021... it couldn't buy feta after a recipe for oven-baked feta pasta went viral. ___18___, restaurants and stores that unexpectedly gain popularity online often struggle to keep up...\n\nOnline food trends can certainly be entertaining... However, like all online phenomena, they should be enjoyed ___19___. It's worth remembering that the most meaningful parts of life happen away from our screens.",
+        blanks: [
+          { id: 0, correct: "encountered", explanation: "encountered (遇到)。" },
+          { id: 1, correct: "propel", explanation: "propel (推進/驅使)。" },
+          { id: 2, correct: "previously", explanation: "previously (先前地)。" },
+          { id: 3, correct: "humble", explanation: "humble (不起眼的/平凡的)。" },
+          { id: 4, correct: "spotlight", explanation: "spotlight (聚光燈/焦點)。" },
+          { id: 5, correct: "thrive", explanation: "thrive (蓬勃發展)。" },
+          { id: 6, correct: "psychologist", explanation: "psychologist (心理學家)。" },
+          { id: 7, correct: "multiple", explanation: "multiple (多個的)。" },
+          { id: 8, correct: "contrasting", explanation: "contrasting (對比的)。" },
+          { id: 9, correct: "visually satisfying", explanation: "visually satisfying (視覺上令人滿足的)。" },
+          { id: 10, correct: "exaggerated enthusiasm", explanation: "exaggerated enthusiasm (誇張的熱情)。" },
+          { id: 11, correct: "originate", explanation: "originate (起源)。" },
+          { id: 12, correct: "exotic appeal", explanation: "exotic appeal (異國風情/吸引力)。" },
+          { id: 13, correct: "attention-grabbing", explanation: "attention-grabbing (吸睛的)。" },
+          { id: 14, correct: "algorithms", explanation: "algorithms (演算法)。" },
+          { id: 15, correct: "fuels", explanation: "fuels (助長/加燃料)。" },
+          { id: 16, correct: "spill into", explanation: "spill into (波及/溢出到)。" },
+          { id: 17, correct: "skyrockets", explanation: "skyrockets (遽增/飆升)。" },
+          { id: 18, correct: "Likewise", explanation: "Likewise (同樣地)。" },
+          { id: 19, correct: "in moderation", explanation: "in moderation (適度地/有節制地)。" }
+        ]
+      }
+    ];
+
+    // === 狀態管理 ===
+    let state = {
+      screen: 'menu', // 'menu', 'playing', 'results'
+      topic: null,
+      answers: {},
+      activeBlankId: null,
+      wordBank: []
+    };
+
+    const appContainer = document.getElementById('app');
+
+    // === 輔助函式 ===
+    const shuffleArray = (array) => {
+      const newArr = [...array];
+      for (let i = newArr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+      }
+      return newArr;
+    };
+
+    const calculateScore = () => {
+      let correctCount = 0;
+      state.topic.blanks.forEach(b => {
+        if (state.answers[b.id] === b.correct) correctCount++;
+      });
+      return Math.round((correctCount / state.topic.blanks.length) * 100);
+    };
+
+    // === 畫面渲染 ===
+    const render = () => {
+      if (state.screen === 'menu') {
+        appContainer.innerHTML = renderMenu();
+      } else if (state.screen === 'playing') {
+        appContainer.innerHTML = renderPlaying();
+      } else if (state.screen === 'results') {
+        appContainer.innerHTML = renderResults();
+      }
+    };
+
+    const renderMenu = () => {
+      let topicsHtml = quizData.map(topic => `
+        <button data-action="start" data-topic-id="${topic.id}" class="text-left w-full p-5 sm:p-6 rounded-xl border-2 border-indigo-100 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-200 shadow-sm flex items-center gap-4">
+          <span class="text-3xl">📖</span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-gray-800">${topic.title}</h2>
+            <p class="text-gray-500 text-sm mt-1">共 ${topic.blanks.length} 個克漏字空格</p>
+          </div>
+        </button>
+      `).join('');
+
+      return `
+        <div class="max-w-4xl w-full mx-auto mt-6 sm:mt-12 p-6 sm:p-10 bg-white rounded-2xl shadow-xl border-t-8 border-indigo-600">
+          <div class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-4 tracking-wide">ALL+ 全文克漏字挑戰 🧩</h1>
+            <p class="text-gray-600 text-base sm:text-lg">選擇一篇文章，挑戰克漏字填空！</p>
+          </div>
+          <div class="flex flex-col gap-4">
+            ${topicsHtml}
+          </div>
+        </div>
+      `;
+    };
+
+    const renderPlaying = () => {
+      // 處理文章內容
+      const parts = state.topic.content.split(/(___\d+___)/g);
+      const articleHtml = parts.map(part => {
+        const match = part.match(/___(\d+)___/);
+        if (match) {
+          const blankId = parseInt(match[1], 10);
+          const answer = state.answers[blankId];
+          const isActive = state.activeBlankId === blankId;
+          
+          let btnClass = "mx-1 my-1 px-3 py-0.5 rounded-md min-w-[3.5rem] font-bold transition-all duration-200 border-b-2 ";
+          if (isActive) btnClass += "bg-indigo-600 text-white border-indigo-800 shadow-md transform scale-110";
+          else if (answer) btnClass += "bg-indigo-100 text-indigo-800 border-indigo-400 hover:bg-indigo-200";
+          else btnClass += "bg-gray-100 text-gray-400 border-gray-400 hover:bg-gray-200";
+          
+          const text = answer ? answer : (isActive ? '選擇中...' : '____');
+          return `<button data-action="blank" data-id="${blankId}" class="${btnClass}">${text}</button>`;
+        }
+        return part.replace(/\n/g, '<br><br>');
+      }).join('');
+
+      // 處理單字庫狀態
+      const usedWords = Object.values(state.answers);
+      const filledCount = Object.keys(state.answers).length;
+      const totalCount = state.topic.blanks.length;
+
+      const wordBankHtml = state.wordBank.map((word, idx) => {
+        const countInAnswers = usedWords.filter(w => w === word).length;
+        const countInBank = state.wordBank.slice(0, idx + 1).filter(w => w === word).length;
+        const isUsed = countInBank <= countInAnswers;
+        
+        let btnClass = "px-3 py-2 rounded-lg font-bold text-sm transition-all ";
+        let disabledAttr = "";
+
+        if (isUsed) {
+          btnClass += "bg-gray-200 text-gray-400 opacity-60 cursor-not-allowed line-through";
+          disabledAttr = "disabled";
+        } else if (state.activeBlankId !== null) {
+          btnClass += "bg-white text-indigo-700 border-2 border-indigo-200 hover:border-indigo-500 hover:bg-indigo-50 shadow-sm active:scale-95";
+        } else {
+          btnClass += "bg-white text-gray-400 border-2 border-gray-100 cursor-not-allowed";
+          disabledAttr = "disabled";
+        }
+
+        return `<button data-action="${isUsed ? '' : 'word'}" data-word="${word}" ${disabledAttr} class="${btnClass}">${word}</button>`;
+      }).join('');
+
+      const submitBtnClass = filledCount === totalCount 
+        ? 'bg-green-500 hover:bg-green-600 text-white animate-bounce' 
+        : 'bg-indigo-600 hover:bg-indigo-700 text-white';
+      const submitText = filledCount === totalCount ? '確認交卷 ✅' : '提早交卷';
+
+      return `
+        <div class="max-w-7xl w-full mx-auto mt-2 sm:mt-8 bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col h-[92vh] sm:h-[85vh] border border-gray-200">
+          
+          <!-- 頂部進度條與說明 -->
+          <div class="bg-indigo-50 p-3 sm:p-4 border-b border-indigo-100 shrink-0">
+            <div class="flex justify-between items-center mb-1 sm:mb-2">
+              <h2 class="text-sm sm:text-base font-bold text-indigo-800 truncate pr-2">${state.topic.title}</h2>
+              <span class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap shrink-0">
+                進度: ${filledCount} / ${totalCount}
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-indigo-600 font-medium">
+              💡 玩法：1. 點擊文章中的空格 👉 2. 從單字庫選擇單字填入。 (點擊已填入的空格可取消)
+            </p>
+          </div>
+          
+          <!-- 雙欄排版區塊 -->
+          <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+            
+            <!-- 左欄：文章內容區 -->
+            <div class="flex-1 p-4 sm:p-8 overflow-y-auto text-base sm:text-lg text-gray-800 font-medium leading-loose bg-white">
+              ${articleHtml}
+            </div>
+
+            <!-- 右欄/下欄：單字庫 -->
+            <div class="w-full md:w-1/3 lg:w-[350px] bg-slate-50 p-4 sm:p-6 border-t-4 md:border-t-0 md:border-l-4 border-slate-200 shrink-0 overflow-y-auto flex flex-col shadow-inner max-h-[35vh] md:max-h-none">
+              
+              <h3 class="text-indigo-800 font-bold mb-3 hidden md:flex items-center gap-2">
+                <span>🗂️</span> 單字庫 (Word Bank)
+              </h3>
+              
+              <div class="flex flex-wrap gap-2 sm:gap-3">
+                ${wordBankHtml}
+              </div>
+              
+              <!-- 交卷按鈕 -->
+              <div class="mt-6 md:mt-auto pt-4 flex justify-center border-t border-slate-200 md:border-none">
+                <button data-action="submit" class="w-full py-3 rounded-xl font-bold text-lg shadow-md transition-all ${submitBtnClass}">
+                  ${submitText}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    const renderResults = () => {
+      const finalScore = calculateScore();
+      const isHighScore = finalScore >= 80;
+      const incorrectBlanks = state.topic.blanks.filter(b => state.answers[b.id] !== b.correct);
+
+      // 產生 Confetti 動畫 HTML
+      let confettiHtml = '';
+      if (isHighScore) {
+        confettiHtml = '<div class="fixed inset-0 pointer-events-none overflow-hidden z-50">';
+        const emojis = ['🎉', '✨', '🏆', '💯', '🔥'];
+        for (let i = 0; i < 50; i++) {
+          const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+          const left = Math.random() * 100;
+          const delay = Math.random() * 3;
+          const duration = 2 + Math.random() * 3;
+          confettiHtml += `<div class="absolute text-3xl animate-confetti" style="left: ${left}vw; animation-delay: ${delay}s; animation-duration: ${duration}s;">${emoji}</div>`;
+        }
+        confettiHtml += '</div>';
+      }
+
+      // 產生錯誤題目解析 HTML
+      let errorsHtml = '';
+      if (incorrectBlanks.length > 0) {
+        const errorListHtml = incorrectBlanks.map(b => {
+          // 取得句子上下文
+          const parts = state.topic.content.split(/(?<=[.!?])\s+/);
+          const targetTag = `___${b.id}___`;
+          const sentence = parts.find(p => p.includes(targetTag)) || "...";
+          const contextHtml = sentence.split(targetTag).map((s, i, arr) => {
+            return s + (i < arr.length - 1 ? `<span class="text-green-600 font-bold bg-green-100 px-1 rounded mx-1 underline">${b.correct}</span>` : '');
+          }).join('');
+
+          const userAnswer = state.answers[b.id] || '(未作答)';
+
+          return `
+            <div class="bg-red-50 rounded-xl p-5 border border-red-100">
+              <div class="mb-3 text-gray-700 text-base sm:text-lg leading-relaxed">
+                <span class="font-bold text-gray-500 mr-2 block sm:inline mb-1">原句片段：</span>
+                ${contextHtml}
+              </div>
+              <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                <div class="bg-white px-4 py-3 rounded-lg border border-red-200 flex-1">
+                  <span class="text-sm text-gray-500 block mb-1">您的答案 ❌</span>
+                  <span class="text-red-600 font-bold text-lg line-through">${userAnswer}</span>
+                </div>
+                <div class="bg-white px-4 py-3 rounded-lg border border-green-200 flex-1">
+                  <span class="text-sm text-gray-500 block mb-1">正確答案 ✅</span>
+                  <span class="text-green-600 font-bold text-lg">${b.correct}</span>
+                </div>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                <span class="font-bold text-indigo-700 block mb-1">💡 解析說明：</span>
+                <span class="text-gray-700">${b.explanation}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        errorsHtml = `
+          <div class="mb-10">
+            <h3 class="text-2xl font-black text-red-600 mb-6 flex items-center gap-2 border-l-4 border-red-500 pl-3">
+              📝 錯誤題目解析
+            </h3>
+            <div class="space-y-6">
+              ${errorListHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      const scoreColor = isHighScore ? 'text-green-500' : 'text-indigo-600';
+      const summaryText = incorrectBlanks.length === 0 
+        ? '🏆 太神啦！完美全對！' 
+        : `您答對了 ${state.topic.blanks.length - incorrectBlanks.length} 題，答錯了 ${incorrectBlanks.length} 題`;
+
+      return `
+        <div class="max-w-4xl w-full mx-auto mt-6 sm:mt-10 p-6 sm:p-10 bg-white rounded-2xl shadow-xl relative overflow-hidden">
+          ${confettiHtml}
+          <div class="text-center mb-10 border-b pb-8">
+            <h2 class="text-3xl sm:text-4xl font-black text-gray-800 mb-4">測驗結算 📊</h2>
+            <div class="text-6xl sm:text-8xl font-extrabold my-6 ${scoreColor}">
+              ${finalScore} <span class="text-2xl sm:text-4xl text-gray-400">分</span>
+            </div>
+            <p class="text-lg font-bold text-gray-600">${summaryText}</p>
+          </div>
+          ${errorsHtml}
+          <div class="text-center mt-10">
+            <button data-action="menu" class="px-10 py-4 bg-gray-800 hover:bg-gray-900 text-white rounded-xl font-bold text-xl transition-all shadow-lg hover:shadow-xl w-full sm:w-auto">
+              返回首頁選單
+            </button>
+          </div>
+        </div>
+      `;
+    };
+
+    // === 事件綁定 (Event Delegation) ===
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+
+      const action = btn.dataset.action;
+
+      if (action === 'start') {
+        const topicId = btn.dataset.topicId;
+        state.topic = quizData.find(t => t.id === topicId);
+        state.answers = {};
+        state.activeBlankId = 0;
+        const words = state.topic.blanks.map(b => b.correct);
+        state.wordBank = shuffleArray(words);
+        state.screen = 'playing';
+        render();
+      }
+
+      else if (action === 'blank') {
+        const blankId = parseInt(btn.dataset.id, 10);
+        state.activeBlankId = blankId;
+        if (state.answers[blankId]) {
+          delete state.answers[blankId];
+        }
+        render();
+      }
+
+      else if (action === 'word') {
+        if (state.activeBlankId === null) return;
+        const word = btn.dataset.word;
+        
+        // 填入答案
+        state.answers[state.activeBlankId] = word;
+
+        // 尋找下一個未填的空格
+        const blanks = state.topic.blanks;
+        let nextBlankId = null;
+        
+        // 優先從當前位置往後找
+        for (let i = state.activeBlankId + 1; i < blanks.length; i++) {
+          if (!state.answers[i] && state.answers[i] !== word) {
+            nextBlankId = i;
+            break;
+          }
+        }
+        // 如果後面滿了，從頭開始找
+        if (nextBlankId === null) {
+          for (let i = 0; i < state.activeBlankId; i++) {
+            if (!state.answers[i] && state.answers[i] !== word) {
+              nextBlankId = i;
+              break;
+            }
+          }
+        }
+        state.activeBlankId = nextBlankId;
+        render();
+      }
+
+      else if (action === 'submit') {
+        const isComplete = Object.keys(state.answers).length === state.topic.blanks.length;
+        if (!isComplete) {
+          if (!window.confirm("還有空格尚未填寫，確定要提早交卷嗎？")) {
+            return;
+          }
+        }
+        state.screen = 'results';
+        render();
+      }
+
+      else if (action === 'menu') {
+        state.screen = 'menu';
+        state.topic = null;
+        render();
+      }
+    });
+
+    // 初始渲染
+    render();
+
+  </script>
+</body>
+</html>
