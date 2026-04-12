@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ALL+ 全文克漏字挑戰 (朗讀預習版)</title>
+  <title>All+ March 考卷填空挑戰 (0412版)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @keyframes confetti {
@@ -29,192 +30,178 @@
     }
     /* 滑竿的客製化顏色 */
     input[type=range] {
-      accent-color: #4f46e5; /* indigo-600 */
+      accent-color: #4f46e5;
+    }
+    /* 讓自動捲動更平滑 */
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
 <body class="bg-slate-100 p-2 sm:p-6 font-sans selection:bg-indigo-200 pb-10">
 
   <div id="app" class="w-full flex justify-center">
-    <!-- 內容將由 JavaScript 動態渲染 -->
+    <div class="mt-20 text-indigo-600 font-bold text-xl animate-pulse">載入遊戲中...</div>
   </div>
 
   <script>
-    // === 題庫資料 ===
+    // === 題庫資料 (完全對齊最新上傳之附件照片) ===
     const quizData = [
       {
-        id: 'march16-17',
-        title: 'All+ March 16~17: QR Codes',
-        content: "Have you ever ___0___ a black-and-white square to pay for a meal, order at a restaurant, or enter a concert? QR codes have become an ___1___ part of daily life, ___2___ on everything from shop signs and tickets to even textbooks and museum walls. They may look simple, but these tiny patterns have an ___3___ history and some ___4___ smart technology behind them.\n\nQR codes were created in 1994 by Denso Wave, a Japanese company that ___5___ parts to Toyota. The company's factories ___6___ regular barcodes that were used to track products, but barcodes could only hold a small amount of data and needed ___7___ to scan properly. So, they designed a new kind of code... It could ___8___ much more information and be scanned from any direction. This made it a far faster and more ___9___ way to track auto parts.\n\n___10___, QR codes were mostly used by manufacturers... As smartphones grew ___11___, QR codes quickly became part of everyday life... During the COVID-19 ___12___, QR codes became especially important for ___13___, health forms, and digital menus. They became both a key tool and major symbol of the new ___14___ lifestyle that many people now rely on.\n\nThe ___15___ of QR codes goes beyond just saving time... Users can ___16___ websites, join events, or receive instant updates by simply scanning a code instead of typing long links or ___17___ forms. In this way, QR codes ___18___ a bridge between physical and digital worlds... From their modest start in car factories... QR codes have ___19___ how a seemingly simple invention can ___20___ significant change... They may be small, but these tiny squares have already ___21___ the way people all over share and receive information.",
+        id: 'march27-cultural',
+        title: '主題 1：Cultural Appropriation (March 27)',
+        content: "___0___ (Due to) social media, people can experience aspects of different cultures more easily than ___1___ before. Whether it's listening to K-pop or watching videos about foreign foods, knowledge about other cultures is ___2___ (唾手可得). While such cultural ___3___ (交流) can make life richer, they can sometimes cross the line (___4___ over the line) into cultural appropriation. This ___5___ (引發) important questions about how we ___6___ (interact with 互動) cultures different from our own.\n\nCultural appropriation happens when clothing, hairstyles, language, or symbols are used in ways ___7___ (a. where b. that) ignore their importance or history. [are used in ways ___8___ (a. where b. that) users ignore their importance or history] This often occurs when members of a ___9___ (主流的) group borrow from a ___10___ (少數族群) culture that has faced ___11___ (歧視). For example, at music festivals like Coachella, non-Native people have worn ___12___ (仿製的) versions of Native American headdresses just for style. They don't realize that in Native traditions, these items must be ___13___ (got) through acts of honor. When others wear them ___14___ (隨意地), it can feel ___15___ (不尊重的), as if the culture is ___16___ reduced to a ___17___ (戲服). In contrast, cultural ___18___ (珍惜/欣賞) means showing ___19___ (real) interest in a culture, learning about its history, and giving proper ___20___ (肯定 recognition). For instance, enjoying Japanese tea ___21___ (茶道) while respecting their traditions ___22___ (作為...的典範) cultural appreciation.\n\nHowever, the line between appreciation and appropriation is not always clear. One ___23___ (高度矚目的) ___24___ (衝突) over this occurred in 2017 between two NBA players, Jeremy Lin and Kenyon Martin. Lin, a Taiwanese-American player, sported dreadlocks, a hairstyle often associated with African-American culture. This ___25___ (caused) Martin, an African-American player, to ___26___ (批評) him on social media for wanting \"to be Black.\" Lin responded by pointing out that Martin had ___27___ (刺青) written in Chinese. He ___28___ (a. viewed b. took c. regarded d. considered e. perceived f. deemed 複選) both his hairstyle and Martin's tattoos to be \"a sign of respect\" and a way of ___29___ (admiring 欣賞) each other's culture.\n\nTo avoid cultural appropriation, respect is ___30___ (important). Before wearing or sharing something from another culture, it's important to ___31___ (反思) your ___32___ (意圖). Ask yourself whether you are honoring the culture or ___33___ (only) ___34___ (模仿) it, and whether your interest is genuine or ___35___ (only) ___36___ (膚淺的). Additionally, having conversations with people from that culture and ___37___ (增強/放大) their voices can help you engage ___38___ (用心地參與). These actions ___39___ (lead to/ give rise to/ bring about) building a global community based on ___40___ respect and ___41___ (相互理解).\n\n*Mrs. Serrano's car was ___42___ a pile of twisted metal in the accident. (變成廢鐵)\n*The old factory was ___43___ ___44___ in the fire. (化為灰燼)\n*She was ___45___ for the death of the dog. (潸然落淚)\n*She was ___46___ in the awkward situation. (無言以對)",
         blanks: [
-          { id: 0, correct: "scanned", explanation: "scan (掃描)。句意：你曾經掃描過黑白方格來付餐費嗎？" },
-          { id: 1, correct: "indispensable", explanation: "indispensable (不可或缺的)。QR碼已成為日常不可或缺的一部分。" },
-          { id: 2, correct: "appearing", explanation: "appearing (出現)。分詞構句，修飾前面的 QR codes。" },
-          { id: 3, correct: "intriguing", explanation: "intriguing (引人入勝的/有趣的)。" },
-          { id: 4, correct: "remarkably", explanation: "remarkably (非凡地/令人驚訝地)。修飾後面的 smart。" },
-          { id: 5, correct: "supplied", explanation: "supply (供應)。supply parts to... (供應零件給...)" },
-          { id: 6, correct: "had been using", explanation: "had been using (過去完成進行式)。表示在發明QR碼之前，工廠一直都在使用傳統條碼。" },
-          { id: 7, correct: "precise alignment", explanation: "precise alignment (精準的對齊)。傳統條碼需要對得很準才能掃描。" },
-          { id: 8, correct: "store", explanation: "store (儲存)。QR碼可以儲存更多資訊。" },
-          { id: 9, correct: "efficient", explanation: "efficient (有效率的)。" },
-          { id: 10, correct: "Initially", explanation: "Initially (起初/一開始)。" },
-          { id: 11, correct: "increasingly prevalent", explanation: "increasingly prevalent (越來越普及/盛行)。" },
-          { id: 12, correct: "pandemic", explanation: "pandemic (全球大流行疫情)。" },
-          { id: 13, correct: "contact tracing", explanation: "contact tracing (接觸史追蹤/實聯制)。" },
-          { id: 14, correct: "contactless", explanation: "contactless (無接觸的)。" },
-          { id: 15, correct: "impact", explanation: "impact (影響)。" },
-          { id: 16, correct: "access", explanation: "access (存取/進入)。進入網站。" },
-          { id: 17, correct: "filling out", explanation: "fill out (填寫表格)。前面有 instead of (介系詞)，所以用 V-ing。" },
-          { id: 18, correct: "act as", explanation: "act as (作為/充當)。作為實體與數位世界的橋樑。" },
-          { id: 19, correct: "demonstrated", explanation: "demonstrated (展示/證明)。" },
-          { id: 20, correct: "spark", explanation: "spark (引發)。引發重大改變。" },
-          { id: 21, correct: "dramatically altered", explanation: "dramatically altered (急遽地改變)。" }
+          { id: 0, correct: "Thanks to", explanation: "Thanks to (Due to/多虧)。" },
+          { id: 1, correct: "ever", explanation: "than ever before (比以往更...)。" },
+          { id: 2, correct: "readily accessible", explanation: "readily accessible (唾手可得的)。" },
+          { id: 3, correct: "exchanges", explanation: "exchanges (交流)。" },
+          { id: 4, correct: "stepping", explanation: "stepping (cross/step over the line 越界)。" },
+          { id: 5, correct: "raises", explanation: "raises (引發 important questions)。" },
+          { id: 6, correct: "engage with", explanation: "engage with (interact with 互動)。" },
+          { id: 7, correct: "that", explanation: "that (關係代名詞，作主詞)。" },
+          { id: 8, correct: "where", explanation: "where (關係副詞 = in which，作地方副詞)。" },
+          { id: 9, correct: "dominant", explanation: "dominant (主流的)。" },
+          { id: 10, correct: "minority", explanation: "minority (少數族群的)。" },
+          { id: 11, correct: "discrimination", explanation: "discrimination (歧視)。" },
+          { id: 12, correct: "fake", explanation: "fake (仿製的)。" },
+          { id: 13, correct: "earned", explanation: "earned (贏得/獲得 got)。" },
+          { id: 14, correct: "casually", explanation: "casually (隨意地)。" },
+          { id: 15, correct: "disrespectful", explanation: "disrespectful (不尊重的)。" },
+          { id: 16, correct: "being", explanation: "being (is being reduced to 正被淪為)。" },
+          { id: 17, correct: "costume", explanation: "costume (戲服)。" },
+          { id: 18, correct: "appreciation", explanation: "appreciation (珍惜/欣賞)。" },
+          { id: 19, correct: "genuine", explanation: "genuine (real 真誠的)。" },
+          { id: 20, correct: "credit", explanation: "credit (肯定 recognition)。" },
+          { id: 21, correct: "ceremonies", explanation: "ceremonies (tea ceremonies 茶道)。" },
+          { id: 22, correct: "exemplifies", explanation: "exemplifies (作為...的典範)。" },
+          { id: 23, correct: "high-profile", explanation: "high-profile (高度矚目的)。" },
+          { id: 24, correct: "conflict", explanation: "conflict (衝突)。" },
+          { id: 25, correct: "prompted", explanation: "prompted (caused 促使)。" },
+          { id: 26, correct: "criticize", explanation: "criticize (批評)。" },
+          { id: 27, correct: "tattoos", explanation: "tattoos (刺青)。" },
+          { id: 28, correct: "considered, deemed", explanation: "considered / deemed (consider/deem A to be B)。" },
+          { id: 29, correct: "appreciating", explanation: "appreciating (admiring 欣賞)。" },
+          { id: 30, correct: "essential", explanation: "essential (important 重要的)。" },
+          { id: 31, correct: "reflect on", explanation: "reflect on (反思)。" },
+          { id: 32, correct: "intentions", explanation: "intentions (意圖)。" },
+          { id: 33, correct: "simply", explanation: "simply (only 僅僅)。" },
+          { id: 34, correct: "imitating", explanation: "imitating (模仿)。" },
+          { id: 35, correct: "merely", explanation: "merely (only 僅僅)。" },
+          { id: 36, correct: "superficial", explanation: "superficial (膚淺的)。" },
+          { id: 37, correct: "amplifying", explanation: "amplifying (增強/放大)。" },
+          { id: 38, correct: "thoughtfully", explanation: "thoughtfully (用心地參與)。" },
+          { id: 39, correct: "contribute to", explanation: "contribute to (導致/促成)。" },
+          { id: 40, correct: "mutual", explanation: "mutual (相互的)。" },
+          { id: 41, correct: "understanding", explanation: "understanding (相互理解)。" },
+          { id: 42, correct: "reduced to", explanation: "reduced to (變成/淪為)。" },
+          { id: 43, correct: "reduced to", explanation: "reduced to (變成/淪為)。" },
+          { id: 44, correct: "ashes", explanation: "ashes (灰燼。 reduced to ashes 化為灰燼)。" },
+          { id: 45, correct: "reduced to tears", explanation: "reduced to tears (潸然落淚)。" },
+          { id: 46, correct: "reduced to silence", explanation: "reduced to silence (無言以對)。" }
         ]
       },
       {
-        id: 'march18-19',
-        title: 'All+ March 18~19: Animals in Myth',
-        content: "When you think of a snake, what comes to mind (___0___ your mind / ___1___ you)? Many people ___2___ snakes with ___3___. This comes from the ___4___ story of Adam and Eve. In the story, a snake ___5___ Eve to eat the forbidden fruit, which causes God to kick humans out of ___6___.\n\nLions are traditionally ___7___ strength and courage. In ancient Egypt, the warrior goddess Sekhmet was ___8___ with a lion's head... Eagles have long been associated with power... they were a symbol of Jupiter, the Romans' ___9___.\n\nWolves have often been viewed with a huge amount of respect... the animals were important symbols of Roman identity and were ___10___ cruel treatment. In ___11___ Native American belief systems, wolves are seen as important ___12___ that teach people to hunt, with some tribes even claiming them as allies and ___13___ people from harming them.\n\n___14___ of owls ___15___ ___16___ across cultures. In ancient Greece, they were associated with Athena... However, in English folklore, they became linked with darkness and death ___17___ they come out at night. As late as the 19th century, English poets used the birds as symbols of ___18___, and similar views are also ___19___ among African and Native American peoples.\n\nThese traditions are fascinating, but it's important to remember that they have little ___20___ in reality. There is nothing ___21___ about snakes or scary about owls.",
+        id: 'march24-26-ai',
+        title: '主題 2：What I Use AI For & Store Conversations',
+        content: "As AI technology has become ___0___ (越來越普及/容易取得), people have found various ways to ___1___ (利用) it in their daily routines. The bar chart ___2___ (說明/圖解) the primary purposes for which people report using AI chatbots.\n\nThe most common purpose was learning and education, which was ___3___ (提及/引用) by 1,402 of the survey ___4___ (受訪者), followed closely by work ___5___ (協助/輔助) at 1,248. Creative writing ___6___ (在數量上佔...) 905 users, with ___7___ (休閒對話) accounting for 613. ___8___ (數量更少的) reported using AI for technical problem-solving (495 people), translation (237), and other uses (100). These ___9___ (統計數據) reveal that people most commonly rely on AI to ___10___ (提升) ___11___ (生產力) and ___12___ (獲得) knowledge. At the same time, the significant use of AI in creative applications ___13___ (指出/顯示) that many people see AI as a helpful tool for imaginative ___14___ (嘗試/努力).\n\nPersonally, I use AI chatbots most frequently for learning purposes. For instance, when I ___15___ (遭遇/遇到) complex grammar structures or ___16___ (不熟悉的詞彙) when studying English, I can ask the chatbot for clear explanations and practical examples. This immediate ___17___ (回饋/回饋意見) ___18___ (加速) my learning process. Beyond efficiency, what I value most is the ___19___ (不加批判的) nature of AI. Unlike asking a person, I never feel ___20___ (尷尬的) about asking basic questions or requesting multiple explanations of the same concept. This creates a comfortable learning environment where curiosity is encouraged rather than limited by ___21___ (社會顧慮).\n\n--- Buying Microwavable Food ---\nSophia brings some ___22___ (可微波的) ___23___ (義大利麵) to the counter.\nSophia: I'll pay for this with ___24___ (行動支付). Please store the ___25___ (收據/發票) in my e-receipt ___26___ (載具).\nClerk: No problem.\nSophia: Can you ___27___ (加熱) for me?\nClerk: Actually, we have several self-service ___28___ (微波爐) over there that you can use... There are also ___29___ (餐具) available in the ___30___ (櫥櫃) below the microwaves if you need any.\n\n--- Paying Bills and Picking Up a Parcel ---\nLucas returns to the convenience store to pay some bills and pick up a ___31___ (包裹).\nClerk: Sure, let me ___32___ (處理) that for you. Your total is $510.\nLucas: Here you are.\nClerk: ___33___ (一切就緒). Here's your change, $40.\nLucas: Thanks. I also need to pick up a package.\nClerk: No problem. Can you give me the last three ___34___ (數字) of your phone number?\nLucas: It's 487.\nClerk: OK, just a moment. (She ___35___ (取回/拿回) the package.) This should be it. Are you Mr. Ramirez?\nLucas: Yes, that's me.\nClerk: Great. That's $200 for the package.\nLucas: Fabulous! ( = ___36___ ) Thank you.",
         blanks: [
-          { id: 0, correct: "crosses", explanation: "cross one's mind (浮現腦海)。" },
-          { id: 1, correct: "dawns on", explanation: "dawn on sb (使人突然明白/想起)。" },
-          { id: 2, correct: "associate", explanation: "associate A with B (將A與B聯想在一起)。" },
-          { id: 3, correct: "trickery", explanation: "trickery (狡詐/欺騙)。" },
-          { id: 4, correct: "biblical", explanation: "biblical (聖經的)。" },
-          { id: 5, correct: "convinces", explanation: "convince (說服)。" },
-          { id: 6, correct: "paradise", explanation: "paradise (天堂/伊甸園)。" },
-          { id: 7, correct: "representations of", explanation: "representations of (作為...的象徵/代表)。" },
-          { id: 8, correct: "depicted", explanation: "depicted (被描繪)。" },
-          { id: 9, correct: "chief deity", explanation: "chief deity (主神)。" },
-          { id: 10, correct: "spared", explanation: "spared (被免於遭受...)。免受殘酷對待。" },
-          { id: 11, correct: "numerous", explanation: "numerous (許多的)。" },
-          { id: 12, correct: "role models", explanation: "role models (楷模/榜樣)。" },
-          { id: 13, correct: "forbidding", explanation: "forbidding (禁止)。" },
-          { id: 14, correct: "Perceptions", explanation: "Perceptions (看法/認知)。" },
-          { id: 15, correct: "vary", explanation: "vary (不同/變化)。" },
-          { id: 16, correct: "radically", explanation: "radically (極端地/徹底地)。" },
-          { id: 17, correct: "because", explanation: "because / due to the fact that / in that (因為)。" },
-          { id: 18, correct: "impending doom", explanation: "impending doom (即將來臨的厄運)。" },
-          { id: 19, correct: "prevalent", explanation: "prevalent (普遍的/盛行的)。" },
-          { id: 20, correct: "basis", explanation: "basis (基礎/根據)。" },
-          { id: 21, correct: "inherently untrustworthy", explanation: "inherently untrustworthy (天生不可信的)。" }
-        ]
-      },
-      {
-        id: 'march20',
-        title: 'All+ March 20: The history of pockets',
-        content: "The history of pockets also reflects social values and gender roles. In the Middle Ages, both men and women wore small pouches ___0___ around their ___1___, since clothes had no built-in pockets... it wasn't ___2___ the early 17th century that pockets first appeared in women's fashion. These pockets typically ___3___ lightweight bags that were hidden under the many ___4___ of fabric women wore.\n\nAs time ___5___, men continued to enjoy jackets and trousers with ___6___ sewn-in pockets that allowed them to move freely. Women's clothing, on the other hand, became more ___7___. With the decorative and narrow silhouettes that became popular in the late 18th century, dresses no longer provided ___8___ room for pockets. Thus, women ___9___ lost the convenience of carrying personal items... This change reflected society's view that women should appear graceful rather than ___10___.\n\nBy the 19th century, men's pockets had become ___11___. However, women's pockets... remained mostly decorative or impractically small. Even though the women's rights movement ___12___ more practical clothing, true progress came slowly...\n\nIn the 20th century, pockets finally started to ___13___ in women's fashion. The 1920s saw shorter skirts and work uniforms that included real pockets. During World War II, women's workwear also featured strong, ___14___ designs. However, many high-end fashion brands still ___15___ style over function. They believed that visible pockets might ruin a smooth shape.\n\nIn the 21st century, social media movements have ___16___ of 'pocket ___17___.' As a result, more designers now create women's clothing with larger pockets. Today, pockets are seen not only as an essential aspect of fashion but also as a symbol of women's independence and equality.",
-        blanks: [
-          { id: 0, correct: "tied", explanation: "tied (綁著)。" },
-          { id: 1, correct: "waists", explanation: "waists (腰部)。" },
-          { id: 2, correct: "until", explanation: "it wasn't until... that... (直到...才...)。" },
-          { id: 3, correct: "consisted of", explanation: "consisted of / were made up of (由...組成)。" },
-          { id: 4, correct: "layers", explanation: "layers (層次)。" },
-          { id: 5, correct: "went on", explanation: "as time went on (隨著時間流逝)。" },
-          { id: 6, correct: "secure", explanation: "secure (安全的/牢固的)。" },
-          { id: 7, correct: "tight-fitting", explanation: "tight-fitting (緊身的)。" },
-          { id: 8, correct: "sufficient", explanation: "sufficient (足夠的)。" },
-          { id: 9, correct: "essentially", explanation: "essentially (本質上/基本上)。" },
-          { id: 10, correct: "practical", explanation: "practical (實用的)。" },
-          { id: 11, correct: "standard", explanation: "standard (標準的/標配的)。" },
-          { id: 12, correct: "advocated", explanation: "advocated (提倡/主張)。" },
-          { id: 13, correct: "make a comeback", explanation: "make a comeback (捲土重來/重新流行)。" },
-          { id: 14, correct: "functional", explanation: "functional (具功能性的/實用的)。" },
-          { id: 15, correct: "favored", explanation: "favored (偏好)。" },
-          { id: 16, correct: "raised awareness", explanation: "raised awareness (喚起意識)。" },
-          { id: 17, correct: "inequality", explanation: "inequality (不平等)。" }
-        ]
-      },
-      {
-        id: 'march24-26',
-        title: 'All+ March 24+26: What I Use AI For',
-        content: "As AI technology has become ___0___, people have found various ways to ___1___ it in their daily routines. The bar chart ___2___ the primary purposes ___3___ people report using AI chatbots. The most common purpose was learning and education, which was ___4___ by 1,402 of the ___5___, followed closely by work ___6___ at 1,248. Creative writing and casual conversation ___7___ 905 users...\n\nThese ___8___ reveal that people most commonly rely on AI to ___9___ and acquire knowledge. At the same time, the significant use of AI in creative applications ___10___ that many people see AI as a helpful tool for ___11___.\n\nPersonally, I use AI chatbots most frequently for learning purposes. For instance, when I ___12___ complex grammar structures... I can ask the chatbot for clear explanations and practical examples. This immediate feedback ___13___ my learning process. Beyond efficiency, what I value most is the ___14___ of AI. Unlike asking a person, I never feel ___15___ about asking basic questions or requesting multiple explanations of the same concept.",
-        blanks: [
-          { id: 0, correct: "increasingly accessible", explanation: "increasingly accessible (越來越容易取得/普及)。" },
-          { id: 1, correct: "make use of", explanation: "make use of (利用)。" },
-          { id: 2, correct: "illustrates", explanation: "illustrates (說明/圖解)。" },
-          { id: 3, correct: "for which", explanation: "for which (介系詞+關係代名詞，引導使用目的)。" },
-          { id: 4, correct: "cited", explanation: "cited (提及/引用)。" },
-          { id: 5, correct: "respondents", explanation: "respondents (受訪者)。" },
-          { id: 6, correct: "assistance", explanation: "assistance (協助/輔助)。" },
-          { id: 7, correct: "accounted for", explanation: "accounted for (佔了...)。" },
-          { id: 8, correct: "statistics", explanation: "statistics (統計數據)。" },
-          { id: 9, correct: "enhance productivity", explanation: "enhance productivity (提升生產力)。" },
-          { id: 10, correct: "indicates", explanation: "indicates (指出/顯示)。" },
-          { id: 11, correct: "imaginative endeavors", explanation: "imaginative endeavors (激發想像力的嘗試/創作)。" },
-          { id: 12, correct: "encounter", explanation: "encounter (遇到/遭遇)。" },
-          { id: 13, correct: "accelerates", explanation: "accelerates (加速)。" },
-          { id: 14, correct: "nonjudgmental nature", explanation: "nonjudgmental nature (不帶批判的特性)。" },
-          { id: 15, correct: "embarrassed", explanation: "embarrassed (感到尷尬的)。" }
-        ]
-      },
-      {
-        id: 'march27',
-        title: 'All+ March 27: Cultural Appropriation',
-        content: "___0___ social media, people can experience aspects of different cultures more easily than ever before... knowledge about other cultures is ___1___. While such cultural ___2___ can make life richer, they can sometimes cross the line (___3___ over the line) into cultural appropriation. This ___4___ important questions about how we ___5___ cultures different from our own.\n\nCultural appropriation happens when clothing, hairstyles, language, or symbols are used in ways that ignore their importance or history. This often occurs when members of a ___6___ group borrow from a ___7___ culture that has faced ___8___. For example... non-Native people have worn ___9___ versions of Native American headdresses just for style. They don't realize that in Native traditions, these items must be earned through acts of honor. When others wear them casually, it can feel ___10___... In contrast, cultural appreciation means showing ___11___ interest in a culture, learning about its history, and giving ___12___. For instance, enjoying Japanese tea ceremonies while respecting their traditions ___13___ cultural appreciation.\n\nHowever, the line between appreciation and appropriation is not always clear. One ___14___ conflict over this occurred in 2017 between Jeremy Lin and Kenyon Martin. Lin sported dreadlocks... This ___15___ Martin to criticize him on social media...\n\nTo avoid cultural appropriation, respect is essential. Before wearing or sharing something from another culture, it's important to ___16___ your intentions. Ask yourself whether you are honoring the culture or ___17___ it...",
-        blanks: [
-          { id: 0, correct: "Thanks to", explanation: "Thanks to (多虧/因為)。" },
-          { id: 1, correct: "readily accessible", explanation: "readily accessible (隨手可得的/容易取得的)。" },
-          { id: 2, correct: "exchanges", explanation: "exchanges (交流)。" },
-          { id: 3, correct: "stepping", explanation: "stepping (跨越/踩)。stepping over the line。" },
-          { id: 4, correct: "raises", explanation: "raises (引發)。raise questions (引發質疑)。" },
-          { id: 5, correct: "engage with", explanation: "engage with (與...互動)。" },
-          { id: 6, correct: "dominant", explanation: "dominant (主流的/強勢的)。" },
-          { id: 7, correct: "minority", explanation: "minority (少數的)。" },
-          { id: 8, correct: "discrimination", explanation: "discrimination (歧視)。" },
-          { id: 9, correct: "fake", explanation: "fake (仿造的/假的)。" },
-          { id: 10, correct: "disrespectful", explanation: "disrespectful (不尊重的)。" },
-          { id: 11, correct: "genuine", explanation: "genuine (真誠的)。" },
-          { id: 12, correct: "proper credit", explanation: "proper credit (應有的肯定/歸功)。" },
-          { id: 13, correct: "exemplifies", explanation: "exemplifies (作為...的典範)。" },
-          { id: 14, correct: "high-profile", explanation: "high-profile (備受矚目的)。" },
-          { id: 15, correct: "prompted", explanation: "prompted (促使)。" },
-          { id: 16, correct: "reflect on", explanation: "reflect on (反思/仔細思考)。" },
-          { id: 17, correct: "simply imitating", explanation: "simply imitating (僅僅模仿)。" }
-        ]
-      },
-      {
-        id: 'march30-31',
-        title: 'All+ March 30~31: Viral Foods',
-        content: "If you're on social media, you've probably ___0___ countless viral food trends. Platforms like TikTok and Instagram can ___1___ ___2___ unknown foods to global fame. Everything from decadent Dubai chocolate to ___3___ cottage cheese has enjoyed a moment in the ___4___, and entire businesses and careers now ___5___ on pure 'Instagramability.'\n\nAccording to Oxford ___6___ Charles Spence, foods such as Dubai chocolate go viral because they appeal to ___7___ senses. Their ___8___ colors make them ___9___, while their high-calorie content triggers our desire to eat them. Reaction videos, in which creators show ___10___ while tasting food, also shape how we think we should feel. In addition, many viral foods ___11___ in faraway countries, giving them an ___12___ that captures viewers' curiosity. Content creators further boost engagement by using ___13___ titles... Once a video receives enough views or comments, social media ___14___ push it to more users' feeds...\n\nAlthough social media ___15___ these viral food trends, their effects often ___16___ the offline world. Some products experience supply shortages when interest suddenly ___17___. For example, in 2021... it couldn't buy feta after a recipe for oven-baked feta pasta went viral. ___18___, restaurants and stores that unexpectedly gain popularity online often struggle to keep up...\n\nOnline food trends can certainly be entertaining... However, like all online phenomena, they should be enjoyed ___19___. It's worth remembering that the most meaningful parts of life happen away from our screens.",
-        blanks: [
-          { id: 0, correct: "encountered", explanation: "encountered (遇到)。" },
-          { id: 1, correct: "propel", explanation: "propel (推進/驅使)。" },
-          { id: 2, correct: "previously", explanation: "previously (先前地)。" },
-          { id: 3, correct: "humble", explanation: "humble (不起眼的/平凡的)。" },
-          { id: 4, correct: "spotlight", explanation: "spotlight (聚光燈/焦點)。" },
-          { id: 5, correct: "thrive", explanation: "thrive (蓬勃發展)。" },
-          { id: 6, correct: "psychologist", explanation: "psychologist (心理學家)。" },
-          { id: 7, correct: "multiple", explanation: "multiple (多個的)。" },
-          { id: 8, correct: "contrasting", explanation: "contrasting (對比的)。" },
-          { id: 9, correct: "visually satisfying", explanation: "visually satisfying (視覺上令人滿足的)。" },
-          { id: 10, correct: "exaggerated enthusiasm", explanation: "exaggerated enthusiasm (誇張的熱情)。" },
-          { id: 11, correct: "originate", explanation: "originate (起源)。" },
-          { id: 12, correct: "exotic appeal", explanation: "exotic appeal (異國風情/吸引力)。" },
-          { id: 13, correct: "attention-grabbing", explanation: "attention-grabbing (吸睛的)。" },
-          { id: 14, correct: "algorithms", explanation: "algorithms (演算法)。" },
-          { id: 15, correct: "fuels", explanation: "fuels (助長/加燃料)。" },
-          { id: 16, correct: "spill into", explanation: "spill into (波及/溢出到)。" },
-          { id: 17, correct: "skyrockets", explanation: "skyrockets (遽增/飆升)。" },
-          { id: 18, correct: "Likewise", explanation: "Likewise (同樣地)。" },
-          { id: 19, correct: "in moderation", explanation: "in moderation (適度地/有節制地)。" }
+          { id: 0, correct: "increasingly accessible", explanation: "increasingly accessible (越來越容易取得/普及)" },
+          { id: 1, correct: "make use of", explanation: "make use of (利用)" },
+          { id: 2, correct: "illustrates", explanation: "illustrates (說明/圖解)" },
+          { id: 3, correct: "cited", explanation: "cited (提及/引用)" },
+          { id: 4, correct: "respondents", explanation: "respondents (受訪者)" },
+          { id: 5, correct: "assistance", explanation: "assistance (協助/輔助)" },
+          { id: 6, correct: "accounted for", explanation: "accounted for (在數量上佔...)" },
+          { id: 7, correct: "casual conversation", explanation: "casual conversation (休閒對話)" },
+          { id: 8, correct: "Still smaller numbers", explanation: "Still smaller numbers (數量更少的)" },
+          { id: 9, correct: "statistics", explanation: "statistics (統計數據)" },
+          { id: 10, correct: "enhance", explanation: "enhance (提升)" },
+          { id: 11, correct: "productivity", explanation: "productivity (生產力)" },
+          { id: 12, correct: "acquire", explanation: "acquire (獲得/學到)" },
+          { id: 13, correct: "indicates", explanation: "indicates (指出/顯示)" },
+          { id: 14, correct: "endeavors", explanation: "endeavors (嘗試/努力)" },
+          { id: 15, correct: "encounter", explanation: "encounter (遭遇/遇到)" },
+          { id: 16, correct: "unfamiliar vocabulary", explanation: "unfamiliar vocabulary (不熟悉的詞彙)" },
+          { id: 17, correct: "feedback", explanation: "feedback (回饋意見)" },
+          { id: 18, correct: "accelerates", explanation: "accelerates (加速)" },
+          { id: 19, correct: "nonjudgmental", explanation: "nonjudgmental (不加批判的)" },
+          { id: 20, correct: "embarrassed", explanation: "embarrassed (感到尷尬的)" },
+          { id: 21, correct: "social concerns", explanation: "social concerns (社會顧慮)" },
+          { id: 22, correct: "microwavable", explanation: "microwavable (可以微波加熱的)" },
+          { id: 23, correct: "pasta", explanation: "pasta (義大利麵)" },
+          { id: 24, correct: "mobile payment", explanation: "mobile payment (行動支付)" },
+          { id: 25, correct: "receipt", explanation: "receipt (收據/發票)" },
+          { id: 26, correct: "carrier", explanation: "carrier (載具)" },
+          { id: 27, correct: "heat this up", explanation: "heat this up (把這個加熱)" },
+          { id: 28, correct: "microwaves", explanation: "microwaves (微波爐)" },
+          { id: 29, correct: "utensils", explanation: "utensils (餐具)" },
+          { id: 30, correct: "cabinet", explanation: "cabinet (櫥櫃)" },
+          { id: 31, correct: "package", explanation: "package (包裹/parcel)" },
+          { id: 32, correct: "process", explanation: "process (處理)" },
+          { id: 33, correct: "All set", explanation: "All set (一切就緒/都弄好了)" },
+          { id: 34, correct: "digits", explanation: "digits (數字)" },
+          { id: 35, correct: "retrieves", explanation: "retrieves (取回/拿回)" },
+          { id: 36, correct: "fantastic", explanation: "fantastic (極好的 = fabulous/fantabulous)" }
         ]
       }
     ];
 
+    // === 載入系統可用語音 ===
+    let availableVoices = [];
+    const loadVoices = () => {
+      try {
+        if (!window.speechSynthesis) return;
+        const voices = window.speechSynthesis.getVoices().filter(v => v.lang.includes('en'));
+        if (voices.length > 0 && availableVoices.length !== voices.length) {
+          availableVoices = voices;
+          if (state.screen === 'preview') {
+            render(); 
+          }
+        }
+      } catch (e) {
+        console.warn("語音載入失敗:", e);
+      }
+    };
+
+    // 全域解鎖語音權限 (針對手機瀏覽器)
+    let audioUnlocked = false;
+    document.addEventListener('click', () => {
+      if (!audioUnlocked && 'speechSynthesis' in window) {
+        let unlockUtterance = new SpeechSynthesisUtterance('');
+        unlockUtterance.volume = 0;
+        window.speechSynthesis.speak(unlockUtterance);
+        audioUnlocked = true;
+        loadVoices();
+      }
+    }, { once: true });
+
+    if ('speechSynthesis' in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      let retryCount = 0;
+      const voiceInterval = setInterval(() => {
+        loadVoices();
+        retryCount++;
+        if (availableVoices.length > 0 || retryCount > 10) {
+          clearInterval(voiceInterval);
+        }
+      }, 500);
+    }
+
     // === 狀態管理 ===
     let state = {
-      screen: 'menu', // 'menu', 'preview', 'playing', 'results'
+      screen: 'menu', 
       topic: null,
-      previewParagraphs: [], // 儲存預習文章各段落文字以供朗讀
+      previewParagraphs: [], 
       answers: {},
       activeBlankId: null,
       wordBank: [],
-      playbackSpeed: 0.9 // 全域播放速度，預設 0.9
+      playbackSpeed: 1.0, 
+      selectedVoiceURI: null 
     };
 
-    const speedMap = [0.5, 0.8, 0.9, 1.0]; // 滑竿 0,1,2,3 對應的速度
-
+    const speedMap = [0.5, 0.8, 0.9, 1.0]; 
     const appContainer = document.getElementById('app');
 
     // === 輔助函式 ===
@@ -235,7 +222,6 @@
       return Math.round((correctCount / state.topic.blanks.length) * 100);
     };
 
-    // 取代文章中所有挖空成為正確答案（預習用）
     const getFilledText = (content, blanks) => {
       return content.replace(/___(\d+)___/g, (match, idStr) => {
         const id = parseInt(idStr, 10);
@@ -244,41 +230,96 @@
       });
     };
 
-    // === TTS 語音引擎 ===
+    // === TTS 語音引擎 (【只念題目與正確答案】自然語氣演算法版) ===
     const stopSpeaking = () => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+      } catch(e){}
     };
 
-    const speakText = (text) => {
-      if ('speechSynthesis' in window) {
-        stopSpeaking(); // 確保停止前一個發音
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = state.playbackSpeed; // 使用使用者設定的語速
-        window.speechSynthesis.speak(utterance);
-      } else {
-        alert("抱歉，您的瀏覽器不支援語音朗讀功能。");
+    const speakText = (text, btnElement) => {
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          
+          setTimeout(() => {
+            // 1. 完全移除括號 () 與 [] 中的所有文字 (包含中文解釋、額外選項等干擾)
+            let cleanText = text.replace(/\([^\)]*\)/g, ' ');
+            cleanText = cleanText.replace(/\[[^\]]*\]/g, ' ');
+
+            // 2. 移除殘留的中文字
+            cleanText = cleanText.replace(/[\u4e00-\u9fa5]/g, ' '); 
+            
+            // 3. 將破折號、斜線、星星等符號替換為「逗號」，讓 TTS 產生自然的呼吸停頓
+            cleanText = cleanText.replace(/[\*\/\-]/g, ', '); 
+            cleanText = cleanText.replace(/_/g, ' ');
+
+            // 4. 清理多餘的空白與重複的逗號，讓句子完美順暢
+            cleanText = cleanText.replace(/\s+/g, ' ').trim(); 
+            cleanText = cleanText.replace(/,(\s*,)+/g, ',');
+
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'en-US';
+            utterance.rate = state.playbackSpeed; 
+
+            if (state.selectedVoiceURI) {
+              const chosenVoice = availableVoices.find(v => v.voiceURI === state.selectedVoiceURI);
+              if (chosenVoice) utterance.voice = chosenVoice;
+            } else {
+              const bestVoice = availableVoices.find(v => 
+                v.name.includes('Google US English') || 
+                v.name.includes('Samantha') || 
+                v.name.includes('Siri')
+              );
+              if (bestVoice) {
+                utterance.voice = bestVoice;
+              }
+            }
+
+            window.speechSynthesis.speak(utterance);
+          }, 50);
+
+        } else {
+          if(btnElement) btnElement.innerHTML = "❌ 瀏覽器不支援";
+        }
+      } catch (e) {
+         if(btnElement) btnElement.innerHTML = "❌ 語音錯誤";
       }
     };
 
     // === 畫面渲染 ===
     const render = () => {
+      // 記錄捲軸位置 (解決點擊後畫面跳轉回最上方的問題)
+      let articleScroll = 0;
+      let wordbankScroll = 0;
+      const articleEl = document.getElementById('article-container');
+      const wordbankEl = document.getElementById('wordbank-container');
+
+      if (articleEl) articleScroll = articleEl.scrollTop;
+      if (wordbankEl) wordbankScroll = wordbankEl.scrollTop;
+
       if (state.screen === 'menu') appContainer.innerHTML = renderMenu();
       else if (state.screen === 'preview') appContainer.innerHTML = renderPreview();
       else if (state.screen === 'playing') appContainer.innerHTML = renderPlaying();
       else if (state.screen === 'results') appContainer.innerHTML = renderResults();
+
+      // 恢復捲軸位置
+      const newArticleEl = document.getElementById('article-container');
+      const newWordbankEl = document.getElementById('wordbank-container');
+
+      if (newArticleEl && articleScroll > 0) newArticleEl.scrollTop = articleScroll;
+      if (newWordbankEl && wordbankScroll > 0) newWordbankEl.scrollTop = wordbankScroll;
     };
 
-    // 1. 首頁選單
     const renderMenu = () => {
       let topicsHtml = quizData.map(topic => `
         <button data-action="goToPreview" data-topic-id="${topic.id}" class="text-left w-full p-5 sm:p-6 rounded-xl border-2 border-indigo-100 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-200 shadow-sm flex items-center gap-4">
-          <span class="text-3xl">📖</span>
+          <span class="text-3xl">📝</span>
           <div>
             <h2 class="text-lg sm:text-xl font-bold text-gray-800">${topic.title}</h2>
-            <p class="text-gray-500 text-sm mt-1">含單字預習與語音朗讀功能</p>
+            <p class="text-gray-500 text-sm mt-1">含 ${topic.blanks.length} 個克漏字空格與段落發音預習</p>
           </div>
         </button>
       `).join('');
@@ -286,8 +327,8 @@
       return `
         <div class="max-w-4xl w-full mx-auto mt-6 sm:mt-12 p-6 sm:p-10 bg-white rounded-2xl shadow-xl border-t-8 border-indigo-600">
           <div class="text-center mb-10">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-4 tracking-wide">ALL+ 全文克漏字挑戰 🧩</h1>
-            <p class="text-gray-600 text-base sm:text-lg">選擇一篇文章，先預習發音，再挑戰克漏字填空！</p>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-4 tracking-wide">0412 考卷填空挑戰 🧩</h1>
+            <p class="text-gray-600 text-base sm:text-lg">選擇一份考卷，先預習發音，再挑戰克漏字填空！</p>
           </div>
           <div class="flex flex-col gap-4">
             ${topicsHtml}
@@ -296,17 +337,14 @@
       `;
     };
 
-    // 2. 預習頁面 (有全文解答與語音播放)
     const renderPreview = () => {
       const rawParagraphs = state.topic.content.split(/\n\n/);
-      const speedIndex = speedMap.indexOf(state.playbackSpeed) !== -1 ? speedMap.indexOf(state.playbackSpeed) : 2;
+      const speedIndex = speedMap.indexOf(state.playbackSpeed) !== -1 ? speedMap.indexOf(state.playbackSpeed) : 3; 
       
       let paragraphsHtml = rawParagraphs.map((para, index) => {
-        // 取出純文字版（給語音引擎讀）
         const filledParaText = getFilledText(para, state.topic.blanks);
         state.previewParagraphs[index] = filledParaText; 
 
-        // 標記正確答案的 HTML 版（給畫面顯示）
         const highlightedHtml = para.replace(/___(\d+)___/g, (match, idStr) => {
           const id = parseInt(idStr, 10);
           const blank = state.topic.blanks.find(b => b.id === id);
@@ -318,11 +356,10 @@
             <button data-action="speak" data-idx="${index}" class="absolute top-3 right-3 bg-white border border-gray-300 shadow-sm text-gray-600 hover:bg-indigo-100 hover:text-indigo-700 hover:border-indigo-300 px-3 py-1.5 rounded-full text-sm font-bold flex items-center gap-1 transition-all z-10">
               🔊 播放段落
             </button>
-            <p class="text-lg text-gray-800 leading-loose pt-10 sm:pt-0 sm:pr-28 relative">
+            <p class="text-lg text-gray-800 leading-loose pt-10 sm:pt-0 sm:pr-28 relative break-words">
               ${highlightedHtml}
             </p>
             
-            <!-- 播放速度滑竿 (置於段落下方) -->
             <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-end gap-2 sm:gap-3">
               <span class="text-sm font-bold text-gray-500">🔊 語速:</span>
               <input type="range" data-action="changeSpeed" min="0" max="3" step="1" value="${speedIndex}" class="w-24 sm:w-32 cursor-pointer">
@@ -332,15 +369,32 @@
         `;
       }).join('');
 
+      let voiceOptionsHtml = '';
+      if (availableVoices.length === 0) {
+        voiceOptionsHtml = '<option value="">載入中... (若無聲請以 Safari/Chrome 開啟)</option>';
+      } else {
+        voiceOptionsHtml = availableVoices.map(v => 
+          `<option value="${v.voiceURI}" ${state.selectedVoiceURI === v.voiceURI ? 'selected' : ''}>${v.name}</option>`
+        ).join('');
+      }
+
       return `
         <div class="max-w-4xl w-full mx-auto mt-4 sm:mt-8 p-5 sm:p-8 bg-white rounded-2xl shadow-xl border-t-8 border-yellow-400">
           <div class="text-center mb-6">
             <span class="bg-yellow-100 text-yellow-800 font-bold px-3 py-1 rounded-full text-sm mb-3 inline-block">考前預習模式</span>
             <h2 class="text-2xl sm:text-3xl font-black text-gray-800">${state.topic.title}</h2>
-            <p class="text-gray-500 mt-2">請先閱讀完整文章，點擊右上方喇叭可聆聽發音。</p>
+            <p class="text-gray-500 mt-2">請先閱讀完整句子，點擊右上方喇叭可聆聽發音。</p>
           </div>
 
-          <!-- 上方 開始測驗按鈕 -->
+          <div class="flex justify-center items-center gap-4 mb-6 bg-white p-3 rounded-xl border border-gray-200 shadow-sm mx-auto max-w-md">
+            <div class="flex items-center gap-2 w-full">
+              <span class="text-sm font-bold text-gray-500 shrink-0">🗣️ 更換語音:</span>
+              <select data-action="changeVoice" class="flex-1 p-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none truncate bg-white">
+                ${voiceOptionsHtml}
+              </select>
+            </div>
+          </div>
+
           <div class="flex justify-center mb-8">
             <button data-action="startQuiz" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-full shadow-md transition-all transform hover:scale-105 text-lg">
               👉 我準備好了，開始測驗！
@@ -351,7 +405,6 @@
             ${paragraphsHtml}
           </div>
 
-          <!-- 下方 開始測驗按鈕 -->
           <div class="flex justify-center mt-8 border-t pt-8 border-gray-100">
             <button data-action="startQuiz" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-all transform hover:scale-105 text-xl">
               👉 閱讀完畢，開始測驗！
@@ -361,7 +414,6 @@
       `;
     };
 
-    // 3. 雙欄測驗進行中
     const renderPlaying = () => {
       const parts = state.topic.content.split(/(___\d+___)/g);
       const articleHtml = parts.map(part => {
@@ -410,7 +462,7 @@
       const submitBtnClass = filledCount === totalCount 
         ? 'bg-green-500 hover:bg-green-600 text-white animate-bounce' 
         : 'bg-indigo-600 hover:bg-indigo-700 text-white';
-      const submitText = filledCount === totalCount ? '確認交卷 ✅' : '提早交卷';
+      const submitText = filledCount === totalCount ? '確認交卷 ✅' : '提早交卷 (尚未作答完畢)';
 
       return `
         <div class="max-w-7xl w-full mx-auto mt-2 sm:mt-8 bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col h-[92vh] sm:h-[85vh] border border-gray-200">
@@ -427,13 +479,13 @@
           </div>
           
           <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
-            <!-- 左欄：文章 -->
-            <div class="flex-1 p-4 sm:p-8 overflow-y-auto text-base sm:text-lg text-gray-800 font-medium leading-loose bg-white">
+            <!-- 左欄：文章區塊 (加上 id="article-container" 讓程式能記住捲軸位置) -->
+            <div id="article-container" class="flex-1 p-4 sm:p-8 overflow-y-auto text-base sm:text-lg text-gray-800 font-medium leading-loose bg-white break-words">
               ${articleHtml}
             </div>
 
-            <!-- 右欄/下欄：單字庫 -->
-            <div class="w-full md:w-1/3 lg:w-[350px] bg-slate-50 p-4 sm:p-6 border-t-4 md:border-t-0 md:border-l-4 border-slate-200 shrink-0 overflow-y-auto flex flex-col shadow-inner max-h-[35vh] md:max-h-none">
+            <!-- 右欄/下欄：單字庫 (加上 id="wordbank-container") -->
+            <div id="wordbank-container" class="w-full md:w-1/3 lg:w-[350px] bg-slate-50 p-4 sm:p-6 border-t-4 md:border-t-0 md:border-l-4 border-slate-200 shrink-0 overflow-y-auto flex flex-col shadow-inner max-h-[35vh] md:max-h-none">
               <h3 class="text-indigo-800 font-bold mb-3 hidden md:flex items-center gap-2">
                 <span>🗂️</span> 單字庫 (Word Bank)
               </h3>
@@ -451,7 +503,6 @@
       `;
     };
 
-    // 4. 測驗結果
     const renderResults = () => {
       const finalScore = calculateScore();
       const isHighScore = finalScore >= 80;
@@ -485,7 +536,7 @@
 
           return `
             <div class="bg-red-50 rounded-xl p-5 border border-red-100">
-              <div class="mb-3 text-gray-700 text-base sm:text-lg leading-relaxed">
+              <div class="mb-3 text-gray-700 text-base sm:text-lg leading-relaxed break-words">
                 <span class="font-bold text-gray-500 mr-2 block sm:inline mb-1">原句片段：</span>
                 ${contextHtml}
               </div>
@@ -554,7 +605,6 @@
 
       const action = btn.dataset.action;
 
-      // 進入預習畫面
       if (action === 'goToPreview') {
         const topicId = btn.dataset.topicId;
         state.topic = quizData.find(t => t.id === topicId);
@@ -564,18 +614,16 @@
         window.scrollTo(0, 0);
       }
       
-      // 播放語音
       else if (action === 'speak') {
         const idx = parseInt(btn.dataset.idx, 10);
         const textToRead = state.previewParagraphs[idx];
         if (textToRead) {
-          speakText(textToRead);
+          speakText(textToRead, btn);
         }
       }
 
-      // 開始正式測驗
       else if (action === 'startQuiz') {
-        stopSpeaking(); // 確保離開預習頁面時停止語音
+        stopSpeaking();
         state.answers = {};
         state.activeBlankId = 0;
         const words = state.topic.blanks.map(b => b.correct);
@@ -618,22 +666,42 @@
         }
         state.activeBlankId = nextBlankId;
         render();
+
+        // 平滑捲動到下一個空格
+        if (nextBlankId !== null) {
+            setTimeout(() => {
+                const nextBtn = document.querySelector(`button[data-id="${nextBlankId}"]`);
+                const articleEl = document.getElementById('article-container');
+                if (nextBtn && articleEl) {
+                    const btnRect = nextBtn.getBoundingClientRect();
+                    const containerRect = articleEl.getBoundingClientRect();
+                    if (btnRect.top < containerRect.top || btnRect.bottom > containerRect.bottom) {
+                        nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            }, 50); 
+        }
       }
 
       else if (action === 'submit') {
         const isComplete = Object.keys(state.answers).length === state.topic.blanks.length;
+        
         if (!isComplete) {
-          if (!window.confirm("還有空格尚未填寫，確定要提早交卷嗎？")) {
+          if (btn.dataset.warned !== 'true') {
+            btn.dataset.warned = 'true';
+            btn.innerHTML = '⚠️ 還有空格未填！確定要交卷？(再按一次)';
+            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            btn.classList.add('bg-red-500', 'hover:bg-red-600', 'animate-pulse');
             return;
           }
         }
+
         stopSpeaking();
         state.screen = 'results';
         render();
         window.scrollTo(0, 0);
       }
 
-      // 回首頁
       else if (action === 'menu') {
         stopSpeaking();
         state.screen = 'menu';
@@ -642,7 +710,6 @@
         window.scrollTo(0, 0);
       }
 
-      // 再測一次
       else if (action === 'retry') {
         stopSpeaking();
         state.answers = {};
@@ -655,13 +722,11 @@
       }
     });
 
-    // 監聽滑竿拖曳事件 (同步更新播放速度與標籤)
     document.addEventListener('input', (e) => {
       if (e.target.dataset.action === 'changeSpeed') {
         const val = parseInt(e.target.value, 10);
         state.playbackSpeed = speedMap[val];
         
-        // 同步畫面上所有的滑竿與速度標籤
         document.querySelectorAll('input[data-action="changeSpeed"]').forEach(slider => {
           slider.value = val;
         });
@@ -669,13 +734,20 @@
           label.textContent = state.playbackSpeed + 'x';
         });
 
-        // 停止目前的語音 (讓學生重新點擊播放以適應新語速)
         stopSpeaking();
       }
     });
 
-    // 初始化
-    render();
+    document.addEventListener('change', (e) => {
+      if (e.target.dataset.action === 'changeVoice') {
+        state.selectedVoiceURI = e.target.value;
+        stopSpeaking(); 
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+       render();
+    });
 
   </script>
 </body>
