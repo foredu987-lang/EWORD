@@ -1,753 +1,405 @@
 
-<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All+ March 考卷填空挑戰 (0412版)</title>
+  <title>單字填空測驗 - Lesson 6</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes confetti {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    /* 自訂動畫，模擬 React 版本的效果 */
+    @keyframes fadeInZoom {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
     }
-    .animate-confetti {
-      animation: confetti linear infinite;
-    }
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9; 
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1; 
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8; 
-    }
-    /* 滑竿的客製化顏色 */
-    input[type=range] {
-      accent-color: #4f46e5;
-    }
-    /* 讓自動捲動更平滑 */
-    html {
-      scroll-behavior: smooth;
+    .animate-feedback {
+      animation: fadeInZoom 0.2s ease-out forwards;
     }
   </style>
 </head>
-<body class="bg-slate-100 p-2 sm:p-6 font-sans selection:bg-indigo-200 pb-10">
+<body class="bg-slate-50 font-sans text-slate-800">
 
-  <div id="app" class="w-full flex justify-center">
-    <div class="mt-20 text-indigo-600 font-bold text-xl animate-pulse">載入遊戲中...</div>
+  <!-- 主容器 -->
+  <div id="app-container" class="min-h-screen flex items-center justify-center p-4">
+    
+    <!-- 開始畫面 -->
+    <div id="screen-start" class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center block">
+      <h1 class="text-3xl font-bold text-slate-800 mb-4">單字填空測驗</h1>
+      <p class="text-slate-600 mb-8">Lesson 6: Dabbawalas: Door-to-Door Meal Delivery in Mumbai</p>
+      <div class="bg-blue-50 text-blue-800 p-4 rounded-lg mb-8 text-sm text-left space-y-2">
+        <p>💡 <strong>測驗說明：</strong></p>
+        <ul class="list-disc pl-5">
+          <li>共有 <span id="total-words-count">23</span> 個單字需要挑戰。</li>
+          <li>請根據中文提示與例句上下文，輸入正確的英文單字。</li>
+          <li>遇到時態或複數變化時，輸入原形或變化形皆可過關。</li>
+          <li>點擊喇叭圖示可以聆聽發音。</li>
+        </ul>
+      </div>
+      <button id="btn-start" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-colors">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        開始測驗
+      </button>
+    </div>
+
+    <!-- 遊戲畫面 -->
+    <div id="screen-game" class="max-w-xl w-full hidden">
+      <!-- 進度條 -->
+      <div class="mb-6">
+        <div class="flex justify-between text-sm text-slate-500 font-medium mb-2 px-1">
+          <span id="progress-text">單字 1 / 23</span>
+          <span id="score-text">得分: 0</span>
+        </div>
+        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+          <div id="progress-bar" class="bg-blue-600 h-full transition-all duration-300 ease-out" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- 主要卡片 -->
+      <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+        
+        <!-- 卡片標頭：中文意義與單字發音按鈕 -->
+        <div class="p-6 pb-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+          <div id="word-meaning" class="text-2xl font-bold text-slate-800"></div>
+          <button id="btn-speak-word" class="p-3 text-blue-600 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors flex-shrink-0" title="聆聽單字發音">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          </button>
+        </div>
+
+        <!-- 卡片內容：例句與輸入框 -->
+        <div class="p-6">
+          <div class="bg-slate-50 rounded-xl p-4 mb-6 text-slate-700 leading-relaxed text-lg flex items-start gap-3">
+            <button id="btn-speak-sentence" class="mt-1 text-slate-400 hover:text-blue-600 transition-colors flex-shrink-0" title="聆聽完整例句">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            </button>
+            <p id="word-sentence" class="flex-1"></p>
+          </div>
+
+          <div class="mb-4">
+            <input type="text" id="word-input" placeholder="請輸入英文單字..." autocomplete="off" spellcheck="false" class="w-full text-center text-2xl font-mono p-4 border-2 rounded-xl outline-none transition-colors border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+          </div>
+
+          <!-- 答題回饋區 -->
+          <div id="feedback-correct" class="hidden items-center gap-2 text-green-600 font-bold mb-6 justify-center animate-feedback">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <span>答對了！</span>
+          </div>
+
+          <div id="feedback-incorrect" class="hidden flex-col items-center gap-1 text-red-500 font-bold mb-6 justify-center animate-feedback">
+            <div class="flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              <span>答錯了</span>
+            </div>
+            <div class="text-slate-600 font-normal mt-2 text-center">
+              正確答案：<span id="correct-answer-display" class="font-mono text-blue-600 font-bold text-lg"></span>
+              <span id="base-word-display" class="text-sm text-slate-500 ml-2 hidden"></span>
+            </div>
+          </div>
+
+          <!-- 操作按鈕 -->
+          <button id="btn-action" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-colors disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+            <span>送出檢查 (Enter)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結束畫面 -->
+    <div id="screen-end" class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center hidden">
+      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 w-10 h-10"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <h2 class="text-3xl font-bold text-slate-800 mb-2">測驗完成！</h2>
+      <p class="text-slate-600 mb-8">您的最終得分</p>
+      
+      <div id="final-score" class="text-5xl font-black text-blue-600 mb-8">0 / 23</div>
+      
+      <p id="end-message" class="text-slate-600 mb-8"></p>
+
+      <button id="btn-restart" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-colors">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+        重新測驗
+      </button>
+    </div>
+
   </div>
 
   <script>
-    // === 題庫資料 (完全對齊最新上傳之附件照片) ===
-    const quizData = [
-      {
-        id: 'march27-cultural',
-        title: '主題 1：Cultural Appropriation (March 27)',
-        content: "___0___ (Due to) social media, people can experience aspects of different cultures more easily than ___1___ before. Whether it's listening to K-pop or watching videos about foreign foods, knowledge about other cultures is ___2___ (唾手可得). While such cultural ___3___ (交流) can make life richer, they can sometimes cross the line (___4___ over the line) into cultural appropriation. This ___5___ (引發) important questions about how we ___6___ (interact with 互動) cultures different from our own.\n\nCultural appropriation happens when clothing, hairstyles, language, or symbols are used in ways ___7___ (a. where b. that) ignore their importance or history. [are used in ways ___8___ (a. where b. that) users ignore their importance or history] This often occurs when members of a ___9___ (主流的) group borrow from a ___10___ (少數族群) culture that has faced ___11___ (歧視). For example, at music festivals like Coachella, non-Native people have worn ___12___ (仿製的) versions of Native American headdresses just for style. They don't realize that in Native traditions, these items must be ___13___ (got) through acts of honor. When others wear them ___14___ (隨意地), it can feel ___15___ (不尊重的), as if the culture is ___16___ reduced to a ___17___ (戲服). In contrast, cultural ___18___ (珍惜/欣賞) means showing ___19___ (real) interest in a culture, learning about its history, and giving proper ___20___ (肯定 recognition). For instance, enjoying Japanese tea ___21___ (茶道) while respecting their traditions ___22___ (作為...的典範) cultural appreciation.\n\nHowever, the line between appreciation and appropriation is not always clear. One ___23___ (高度矚目的) ___24___ (衝突) over this occurred in 2017 between two NBA players, Jeremy Lin and Kenyon Martin. Lin, a Taiwanese-American player, sported dreadlocks, a hairstyle often associated with African-American culture. This ___25___ (caused) Martin, an African-American player, to ___26___ (批評) him on social media for wanting \"to be Black.\" Lin responded by pointing out that Martin had ___27___ (刺青) written in Chinese. He ___28___ (a. viewed b. took c. regarded d. considered e. perceived f. deemed 複選) both his hairstyle and Martin's tattoos to be \"a sign of respect\" and a way of ___29___ (admiring 欣賞) each other's culture.\n\nTo avoid cultural appropriation, respect is ___30___ (important). Before wearing or sharing something from another culture, it's important to ___31___ (反思) your ___32___ (意圖). Ask yourself whether you are honoring the culture or ___33___ (only) ___34___ (模仿) it, and whether your interest is genuine or ___35___ (only) ___36___ (膚淺的). Additionally, having conversations with people from that culture and ___37___ (增強/放大) their voices can help you engage ___38___ (用心地參與). These actions ___39___ (lead to/ give rise to/ bring about) building a global community based on ___40___ respect and ___41___ (相互理解).\n\n*Mrs. Serrano's car was ___42___ a pile of twisted metal in the accident. (變成廢鐵)\n*The old factory was ___43___ ___44___ in the fire. (化為灰燼)\n*She was ___45___ for the death of the dog. (潸然落淚)\n*She was ___46___ in the awkward situation. (無言以對)",
-        blanks: [
-          { id: 0, correct: "Thanks to", explanation: "Thanks to (Due to/多虧)。" },
-          { id: 1, correct: "ever", explanation: "than ever before (比以往更...)。" },
-          { id: 2, correct: "readily accessible", explanation: "readily accessible (唾手可得的)。" },
-          { id: 3, correct: "exchanges", explanation: "exchanges (交流)。" },
-          { id: 4, correct: "stepping", explanation: "stepping (cross/step over the line 越界)。" },
-          { id: 5, correct: "raises", explanation: "raises (引發 important questions)。" },
-          { id: 6, correct: "engage with", explanation: "engage with (interact with 互動)。" },
-          { id: 7, correct: "that", explanation: "that (關係代名詞，作主詞)。" },
-          { id: 8, correct: "where", explanation: "where (關係副詞 = in which，作地方副詞)。" },
-          { id: 9, correct: "dominant", explanation: "dominant (主流的)。" },
-          { id: 10, correct: "minority", explanation: "minority (少數族群的)。" },
-          { id: 11, correct: "discrimination", explanation: "discrimination (歧視)。" },
-          { id: 12, correct: "fake", explanation: "fake (仿製的)。" },
-          { id: 13, correct: "earned", explanation: "earned (贏得/獲得 got)。" },
-          { id: 14, correct: "casually", explanation: "casually (隨意地)。" },
-          { id: 15, correct: "disrespectful", explanation: "disrespectful (不尊重的)。" },
-          { id: 16, correct: "being", explanation: "being (is being reduced to 正被淪為)。" },
-          { id: 17, correct: "costume", explanation: "costume (戲服)。" },
-          { id: 18, correct: "appreciation", explanation: "appreciation (珍惜/欣賞)。" },
-          { id: 19, correct: "genuine", explanation: "genuine (real 真誠的)。" },
-          { id: 20, correct: "credit", explanation: "credit (肯定 recognition)。" },
-          { id: 21, correct: "ceremonies", explanation: "ceremonies (tea ceremonies 茶道)。" },
-          { id: 22, correct: "exemplifies", explanation: "exemplifies (作為...的典範)。" },
-          { id: 23, correct: "high-profile", explanation: "high-profile (高度矚目的)。" },
-          { id: 24, correct: "conflict", explanation: "conflict (衝突)。" },
-          { id: 25, correct: "prompted", explanation: "prompted (caused 促使)。" },
-          { id: 26, correct: "criticize", explanation: "criticize (批評)。" },
-          { id: 27, correct: "tattoos", explanation: "tattoos (刺青)。" },
-          { id: 28, correct: "considered, deemed", explanation: "considered / deemed (consider/deem A to be B)。" },
-          { id: 29, correct: "appreciating", explanation: "appreciating (admiring 欣賞)。" },
-          { id: 30, correct: "essential", explanation: "essential (important 重要的)。" },
-          { id: 31, correct: "reflect on", explanation: "reflect on (反思)。" },
-          { id: 32, correct: "intentions", explanation: "intentions (意圖)。" },
-          { id: 33, correct: "simply", explanation: "simply (only 僅僅)。" },
-          { id: 34, correct: "imitating", explanation: "imitating (模仿)。" },
-          { id: 35, correct: "merely", explanation: "merely (only 僅僅)。" },
-          { id: 36, correct: "superficial", explanation: "superficial (膚淺的)。" },
-          { id: 37, correct: "amplifying", explanation: "amplifying (增強/放大)。" },
-          { id: 38, correct: "thoughtfully", explanation: "thoughtfully (用心地參與)。" },
-          { id: 39, correct: "contribute to", explanation: "contribute to (導致/促成)。" },
-          { id: 40, correct: "mutual", explanation: "mutual (相互的)。" },
-          { id: 41, correct: "understanding", explanation: "understanding (相互理解)。" },
-          { id: 42, correct: "reduced to", explanation: "reduced to (變成/淪為)。" },
-          { id: 43, correct: "reduced to", explanation: "reduced to (變成/淪為)。" },
-          { id: 44, correct: "ashes", explanation: "ashes (灰燼。 reduced to ashes 化為灰燼)。" },
-          { id: 45, correct: "reduced to tears", explanation: "reduced to tears (潸然落淚)。" },
-          { id: 46, correct: "reduced to silence", explanation: "reduced to silence (無言以對)。" }
-        ]
-      },
-      {
-        id: 'march24-26-ai',
-        title: '主題 2：What I Use AI For & Store Conversations',
-        content: "As AI technology has become ___0___ (越來越普及/容易取得), people have found various ways to ___1___ (利用) it in their daily routines. The bar chart ___2___ (說明/圖解) the primary purposes for which people report using AI chatbots.\n\nThe most common purpose was learning and education, which was ___3___ (提及/引用) by 1,402 of the survey ___4___ (受訪者), followed closely by work ___5___ (協助/輔助) at 1,248. Creative writing ___6___ (在數量上佔...) 905 users, with ___7___ (休閒對話) accounting for 613. ___8___ (數量更少的) reported using AI for technical problem-solving (495 people), translation (237), and other uses (100). These ___9___ (統計數據) reveal that people most commonly rely on AI to ___10___ (提升) ___11___ (生產力) and ___12___ (獲得) knowledge. At the same time, the significant use of AI in creative applications ___13___ (指出/顯示) that many people see AI as a helpful tool for imaginative ___14___ (嘗試/努力).\n\nPersonally, I use AI chatbots most frequently for learning purposes. For instance, when I ___15___ (遭遇/遇到) complex grammar structures or ___16___ (不熟悉的詞彙) when studying English, I can ask the chatbot for clear explanations and practical examples. This immediate ___17___ (回饋/回饋意見) ___18___ (加速) my learning process. Beyond efficiency, what I value most is the ___19___ (不加批判的) nature of AI. Unlike asking a person, I never feel ___20___ (尷尬的) about asking basic questions or requesting multiple explanations of the same concept. This creates a comfortable learning environment where curiosity is encouraged rather than limited by ___21___ (社會顧慮).\n\n--- Buying Microwavable Food ---\nSophia brings some ___22___ (可微波的) ___23___ (義大利麵) to the counter.\nSophia: I'll pay for this with ___24___ (行動支付). Please store the ___25___ (收據/發票) in my e-receipt ___26___ (載具).\nClerk: No problem.\nSophia: Can you ___27___ (加熱) for me?\nClerk: Actually, we have several self-service ___28___ (微波爐) over there that you can use... There are also ___29___ (餐具) available in the ___30___ (櫥櫃) below the microwaves if you need any.\n\n--- Paying Bills and Picking Up a Parcel ---\nLucas returns to the convenience store to pay some bills and pick up a ___31___ (包裹).\nClerk: Sure, let me ___32___ (處理) that for you. Your total is $510.\nLucas: Here you are.\nClerk: ___33___ (一切就緒). Here's your change, $40.\nLucas: Thanks. I also need to pick up a package.\nClerk: No problem. Can you give me the last three ___34___ (數字) of your phone number?\nLucas: It's 487.\nClerk: OK, just a moment. (She ___35___ (取回/拿回) the package.) This should be it. Are you Mr. Ramirez?\nLucas: Yes, that's me.\nClerk: Great. That's $200 for the package.\nLucas: Fabulous! ( = ___36___ ) Thank you.",
-        blanks: [
-          { id: 0, correct: "increasingly accessible", explanation: "increasingly accessible (越來越容易取得/普及)" },
-          { id: 1, correct: "make use of", explanation: "make use of (利用)" },
-          { id: 2, correct: "illustrates", explanation: "illustrates (說明/圖解)" },
-          { id: 3, correct: "cited", explanation: "cited (提及/引用)" },
-          { id: 4, correct: "respondents", explanation: "respondents (受訪者)" },
-          { id: 5, correct: "assistance", explanation: "assistance (協助/輔助)" },
-          { id: 6, correct: "accounted for", explanation: "accounted for (在數量上佔...)" },
-          { id: 7, correct: "casual conversation", explanation: "casual conversation (休閒對話)" },
-          { id: 8, correct: "Still smaller numbers", explanation: "Still smaller numbers (數量更少的)" },
-          { id: 9, correct: "statistics", explanation: "statistics (統計數據)" },
-          { id: 10, correct: "enhance", explanation: "enhance (提升)" },
-          { id: 11, correct: "productivity", explanation: "productivity (生產力)" },
-          { id: 12, correct: "acquire", explanation: "acquire (獲得/學到)" },
-          { id: 13, correct: "indicates", explanation: "indicates (指出/顯示)" },
-          { id: 14, correct: "endeavors", explanation: "endeavors (嘗試/努力)" },
-          { id: 15, correct: "encounter", explanation: "encounter (遭遇/遇到)" },
-          { id: 16, correct: "unfamiliar vocabulary", explanation: "unfamiliar vocabulary (不熟悉的詞彙)" },
-          { id: 17, correct: "feedback", explanation: "feedback (回饋意見)" },
-          { id: 18, correct: "accelerates", explanation: "accelerates (加速)" },
-          { id: 19, correct: "nonjudgmental", explanation: "nonjudgmental (不加批判的)" },
-          { id: 20, correct: "embarrassed", explanation: "embarrassed (感到尷尬的)" },
-          { id: 21, correct: "social concerns", explanation: "social concerns (社會顧慮)" },
-          { id: 22, correct: "microwavable", explanation: "microwavable (可以微波加熱的)" },
-          { id: 23, correct: "pasta", explanation: "pasta (義大利麵)" },
-          { id: 24, correct: "mobile payment", explanation: "mobile payment (行動支付)" },
-          { id: 25, correct: "receipt", explanation: "receipt (收據/發票)" },
-          { id: 26, correct: "carrier", explanation: "carrier (載具)" },
-          { id: 27, correct: "heat this up", explanation: "heat this up (把這個加熱)" },
-          { id: 28, correct: "microwaves", explanation: "microwaves (微波爐)" },
-          { id: 29, correct: "utensils", explanation: "utensils (餐具)" },
-          { id: 30, correct: "cabinet", explanation: "cabinet (櫥櫃)" },
-          { id: 31, correct: "package", explanation: "package (包裹/parcel)" },
-          { id: 32, correct: "process", explanation: "process (處理)" },
-          { id: 33, correct: "All set", explanation: "All set (一切就緒/都弄好了)" },
-          { id: 34, correct: "digits", explanation: "digits (數字)" },
-          { id: 35, correct: "retrieves", explanation: "retrieves (取回/拿回)" },
-          { id: 36, correct: "fantastic", explanation: "fantastic (極好的 = fabulous/fantabulous)" }
-        ]
-      }
+    // 單字資料
+    const vocabData = [
+      { base: "enterprise", meaning: "組織；公司；企業", sentence: "Mrs. Watson's clothing company employs over a thousand workers. It is therefore a very large _____.", answers: ["enterprise"], displayAnswer: "enterprise" },
+      { base: "transaction", meaning: "交易；買賣", sentence: "Every time someone buys something at the convenience store, the _____ is saved in the shop's computer system.", answers: ["transaction"], displayAnswer: "transaction" },
+      { base: "rate", meaning: "比率", sentence: "The total number of visitors to the zoo is increasing at a _____ of around fifty thousand people a year.", answers: ["rate"], displayAnswer: "rate" },
+      { base: "merely", meaning: "僅僅；只不過", sentence: "It's best to thank someone in person rather than _____ send them an email or a text message.", answers: ["merely"], displayAnswer: "merely" },
+      { base: "accuracy", meaning: "準確性", sentence: "The problem is that the more we go into the past, the less _____ we can attain.", answers: ["accuracy"], displayAnswer: "accuracy" },
+      { base: "suburb", meaning: "郊區；城外", sentence: "Most people live out in the _____ and travel into the city center for work every workday.", answers: ["suburb", "suburbs"], displayAnswer: "suburbs" },
+      { base: "commute", meaning: "上下班路程 (n.) / 通勤 (v.)", sentence: "For many passengers on the bus, the daily _____ home from work is a good time to read a book.", answers: ["commute"], displayAnswer: "commute" },
+      { base: "network", meaning: "網絡；網狀系統", sentence: "Switzerland's well-developed rail _____ allows you to travel by train to almost anywhere in the country within just a few hours.", answers: ["network"], displayAnswer: "network" },
+      { base: "efficiency", meaning: "效率；效能", sentence: "The workers are spending too much time waiting in line to make copies. Thus, a second printer in the office will increase _____.", answers: ["efficiency"], displayAnswer: "efficiency" },
+      { base: "roughly", meaning: "大約；差不多", sentence: "We didn't count everyone, but _____ speaking, there were around thirty people at the party.", answers: ["roughly"], displayAnswer: "roughly" },
+      { base: "swiftly", meaning: "迅速地", sentence: "Running _____ to get away from the young lions, the zebra just managed to escape being caught and eaten.", answers: ["swiftly"], displayAnswer: "swiftly" },
+      { base: "sort", meaning: "種類；類別 (n.) / 分類 (v.)", sentence: "At the traditional market, you'll find all _____ of food, including fried snacks, baked goods, meat and seafood, and fresh fruit.", answers: ["sort", "sorts"], displayAnswer: "sorts" },
+      { base: "load", meaning: "負重；負荷 (n.) / 裝載 (v.)", sentence: "With two more reindeer at the front, Santa's sleigh should be able to carry a heavy _____.", answers: ["load"], displayAnswer: "load" },
+      { base: "retrace", meaning: "沿原路返回；折回", sentence: "With the security guard approaching, the thief swiftly _____ his steps to the wall and hid in the shadows.", answers: ["retrace", "retraced"], displayAnswer: "retraced" },
+      { base: "massive", meaning: "龐大的；巨大的", sentence: "The existence of snakes can be traced all the way back to the time when _____ thirty-ton dinosaurs ruled the earth.", answers: ["massive"], displayAnswer: "massive" },
+      { base: "handle", meaning: "搬動；觸摸；弄", sentence: "Don't _____ any of the cubs, because the mother bear might reject them if they smell of humans.", answers: ["handle"], displayAnswer: "handle" },
+      { base: "code", meaning: "密碼；暗碼 (n.) / 編碼 (v.)", sentence: "Before our soldiers crack the _____ , the messages enemy generals had been sending each other didn't seem to make much sense.", answers: ["code"], displayAnswer: "code" },
+      { base: "particular", meaning: "特定的", sentence: "Is there anything in _____ that Grandpa would like for Christmas, or does he want us to surprise him?", answers: ["particular"], displayAnswer: "particular" },
+      { base: "scheme", meaning: "系統；配置", sentence: "Martin came up with an ingenious _____ to organize all the kitchen items, so storing them is consequently much easier.", answers: ["scheme"], displayAnswer: "scheme" },
+      { base: "tactic", meaning: "策略；手法", sentence: "Because the other boxer had a powerful left hook, Vinny's _____ was to try to stay on his left side.", answers: ["tactic"], displayAnswer: "tactic" },
+      { base: "flawless", meaning: "無瑕的；完美的", sentence: "After such a _____ dance routine, the judges had no choice but to give the couple a perfect ten.", answers: ["flawless"], displayAnswer: "flawless" },
+      { base: "classic", meaning: "典型的；有代表性的", sentence: "Allen punched Ken in the face after finding out that Ken had written a love letter to his girlfriend. It was a _____ case of jealousy.", answers: ["classic"], displayAnswer: "classic" },
+      { base: "excellence", meaning: "優秀；傑出", sentence: "It took years of practice for the singer to achieve _____ in such demanding opera singing.", answers: ["excellence"], displayAnswer: "excellence" }
     ];
 
-    // === 載入系統可用語音 ===
-    let availableVoices = [];
-    const loadVoices = () => {
-      try {
-        if (!window.speechSynthesis) return;
-        const voices = window.speechSynthesis.getVoices().filter(v => v.lang.includes('en'));
-        if (voices.length > 0 && availableVoices.length !== voices.length) {
-          availableVoices = voices;
-          if (state.screen === 'preview') {
-            render(); 
-          }
-        }
-      } catch (e) {
-        console.warn("語音載入失敗:", e);
-      }
+    // 應用程式狀態
+    let currentIndex = 0;
+    let score = 0;
+    let status = 'playing'; // 'playing', 'correct', 'incorrect'
+
+    // DOM 元素參考
+    const screens = {
+      start: document.getElementById('screen-start'),
+      game: document.getElementById('screen-game'),
+      end: document.getElementById('screen-end')
+    };
+    
+    const ui = {
+      totalWords: document.getElementById('total-words-count'),
+      progressText: document.getElementById('progress-text'),
+      scoreText: document.getElementById('score-text'),
+      progressBar: document.getElementById('progress-bar'),
+      meaning: document.getElementById('word-meaning'),
+      sentence: document.getElementById('word-sentence'),
+      input: document.getElementById('word-input'),
+      feedbackCorrect: document.getElementById('feedback-correct'),
+      feedbackIncorrect: document.getElementById('feedback-incorrect'),
+      correctAnswerDisplay: document.getElementById('correct-answer-display'),
+      baseWordDisplay: document.getElementById('base-word-display'),
+      btnAction: document.getElementById('btn-action'),
+      btnActionText: document.querySelector('#btn-action span'),
+      finalScore: document.getElementById('final-score'),
+      endMessage: document.getElementById('end-message')
     };
 
-    // 全域解鎖語音權限 (針對手機瀏覽器)
-    let audioUnlocked = false;
-    document.addEventListener('click', () => {
-      if (!audioUnlocked && 'speechSynthesis' in window) {
-        let unlockUtterance = new SpeechSynthesisUtterance('');
-        unlockUtterance.volume = 0;
-        window.speechSynthesis.speak(unlockUtterance);
-        audioUnlocked = true;
-        loadVoices();
-      }
-    }, { once: true });
+    // 初始化
+    ui.totalWords.textContent = vocabData.length;
 
-    if ('speechSynthesis' in window) {
-      loadVoices();
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-      let retryCount = 0;
-      const voiceInterval = setInterval(() => {
-        loadVoices();
-        retryCount++;
-        if (availableVoices.length > 0 || retryCount > 10) {
-          clearInterval(voiceInterval);
-        }
-      }, 500);
+    // 發音功能
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("您的瀏覽器不支援語音發音功能。");
+      }
     }
 
-    // === 狀態管理 ===
-    let state = {
-      screen: 'menu', 
-      topic: null,
-      previewParagraphs: [], 
-      answers: {},
-      activeBlankId: null,
-      wordBank: [],
-      playbackSpeed: 1.0, 
-      selectedVoiceURI: null 
-    };
-
-    const speedMap = [0.5, 0.8, 0.9, 1.0]; 
-    const appContainer = document.getElementById('app');
-
-    // === 輔助函式 ===
-    const shuffleArray = (array) => {
-      const newArr = [...array];
-      for (let i = newArr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-      }
-      return newArr;
-    };
-
-    const calculateScore = () => {
-      let correctCount = 0;
-      state.topic.blanks.forEach(b => {
-        if (state.answers[b.id] === b.correct) correctCount++;
+    // 顯示指定畫面
+    function showScreen(screenName) {
+      Object.values(screens).forEach(screen => {
+        screen.classList.add('hidden');
+        screen.classList.remove('block');
       });
-      return Math.round((correctCount / state.topic.blanks.length) * 100);
-    };
+      screens[screenName].classList.remove('hidden');
+      screens[screenName].classList.add('block');
+    }
 
-    const getFilledText = (content, blanks) => {
-      return content.replace(/___(\d+)___/g, (match, idStr) => {
-        const id = parseInt(idStr, 10);
-        const blank = blanks.find(b => b.id === id);
-        return blank ? blank.correct : match;
-      });
-    };
-
-    // === TTS 語音引擎 (【只念題目與正確答案】自然語氣演算法版) ===
-    const stopSpeaking = () => {
-      try {
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-        }
-      } catch(e){}
-    };
-
-    const speakText = (text, btnElement) => {
-      try {
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-          
-          setTimeout(() => {
-            // 1. 完全移除括號 () 與 [] 中的所有文字 (包含中文解釋、額外選項等干擾)
-            let cleanText = text.replace(/\([^\)]*\)/g, ' ');
-            cleanText = cleanText.replace(/\[[^\]]*\]/g, ' ');
-
-            // 2. 移除殘留的中文字
-            cleanText = cleanText.replace(/[\u4e00-\u9fa5]/g, ' '); 
-            
-            // 3. 將破折號、斜線、星星等符號替換為「逗號」，讓 TTS 產生自然的呼吸停頓
-            cleanText = cleanText.replace(/[\*\/\-]/g, ', '); 
-            cleanText = cleanText.replace(/_/g, ' ');
-
-            // 4. 清理多餘的空白與重複的逗號，讓句子完美順暢
-            cleanText = cleanText.replace(/\s+/g, ' ').trim(); 
-            cleanText = cleanText.replace(/,(\s*,)+/g, ',');
-
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.lang = 'en-US';
-            utterance.rate = state.playbackSpeed; 
-
-            if (state.selectedVoiceURI) {
-              const chosenVoice = availableVoices.find(v => v.voiceURI === state.selectedVoiceURI);
-              if (chosenVoice) utterance.voice = chosenVoice;
-            } else {
-              const bestVoice = availableVoices.find(v => 
-                v.name.includes('Google US English') || 
-                v.name.includes('Samantha') || 
-                v.name.includes('Siri')
-              );
-              if (bestVoice) {
-                utterance.voice = bestVoice;
-              }
-            }
-
-            window.speechSynthesis.speak(utterance);
-          }, 50);
-
-        } else {
-          if(btnElement) btnElement.innerHTML = "❌ 瀏覽器不支援";
-        }
-      } catch (e) {
-         if(btnElement) btnElement.innerHTML = "❌ 語音錯誤";
-      }
-    };
-
-    // === 畫面渲染 ===
-    const render = () => {
-      // 記錄捲軸位置 (解決點擊後畫面跳轉回最上方的問題)
-      let articleScroll = 0;
-      let wordbankScroll = 0;
-      const articleEl = document.getElementById('article-container');
-      const wordbankEl = document.getElementById('wordbank-container');
-
-      if (articleEl) articleScroll = articleEl.scrollTop;
-      if (wordbankEl) wordbankScroll = wordbankEl.scrollTop;
-
-      if (state.screen === 'menu') appContainer.innerHTML = renderMenu();
-      else if (state.screen === 'preview') appContainer.innerHTML = renderPreview();
-      else if (state.screen === 'playing') appContainer.innerHTML = renderPlaying();
-      else if (state.screen === 'results') appContainer.innerHTML = renderResults();
-
-      // 恢復捲軸位置
-      const newArticleEl = document.getElementById('article-container');
-      const newWordbankEl = document.getElementById('wordbank-container');
-
-      if (newArticleEl && articleScroll > 0) newArticleEl.scrollTop = articleScroll;
-      if (newWordbankEl && wordbankScroll > 0) newWordbankEl.scrollTop = wordbankScroll;
-    };
-
-    const renderMenu = () => {
-      let topicsHtml = quizData.map(topic => `
-        <button data-action="goToPreview" data-topic-id="${topic.id}" class="text-left w-full p-5 sm:p-6 rounded-xl border-2 border-indigo-100 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-200 shadow-sm flex items-center gap-4">
-          <span class="text-3xl">📝</span>
-          <div>
-            <h2 class="text-lg sm:text-xl font-bold text-gray-800">${topic.title}</h2>
-            <p class="text-gray-500 text-sm mt-1">含 ${topic.blanks.length} 個克漏字空格與段落發音預習</p>
-          </div>
-        </button>
-      `).join('');
-
-      return `
-        <div class="max-w-4xl w-full mx-auto mt-6 sm:mt-12 p-6 sm:p-10 bg-white rounded-2xl shadow-xl border-t-8 border-indigo-600">
-          <div class="text-center mb-10">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-4 tracking-wide">0412 考卷填空挑戰 🧩</h1>
-            <p class="text-gray-600 text-base sm:text-lg">選擇一份考卷，先預習發音，再挑戰克漏字填空！</p>
-          </div>
-          <div class="flex flex-col gap-4">
-            ${topicsHtml}
-          </div>
-        </div>
-      `;
-    };
-
-    const renderPreview = () => {
-      const rawParagraphs = state.topic.content.split(/\n\n/);
-      const speedIndex = speedMap.indexOf(state.playbackSpeed) !== -1 ? speedMap.indexOf(state.playbackSpeed) : 3; 
+    // 更新遊戲畫面 UI
+    function updateGameUI() {
+      const currentWord = vocabData[currentIndex];
       
-      let paragraphsHtml = rawParagraphs.map((para, index) => {
-        const filledParaText = getFilledText(para, state.topic.blanks);
-        state.previewParagraphs[index] = filledParaText; 
+      // 更新進度與分數
+      ui.progressText.textContent = `單字 ${currentIndex + 1} / ${vocabData.length}`;
+      ui.scoreText.textContent = `得分: ${score}`;
+      ui.progressBar.style.width = `${(currentIndex / vocabData.length) * 100}%`;
+      
+      // 更新字義
+      ui.meaning.textContent = currentWord.meaning;
+      
+      // 更新例句（處理空格）
+      renderSentence(currentWord);
 
-        const highlightedHtml = para.replace(/___(\d+)___/g, (match, idStr) => {
-          const id = parseInt(idStr, 10);
-          const blank = state.topic.blanks.find(b => b.id === id);
-          return `<span class="text-indigo-700 font-extrabold bg-indigo-100 px-1 rounded underline">${blank.correct}</span>`;
-        }).replace(/\n/g, '<br>');
+      // 更新輸入框狀態
+      ui.input.value = status === 'playing' ? ui.input.value : ui.input.value;
+      ui.input.className = `w-full text-center text-2xl font-mono p-4 border-2 rounded-xl outline-none transition-colors `;
+      
+      if (status === 'playing') {
+        ui.input.className += 'border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100';
+        ui.input.disabled = false;
+        ui.input.focus();
+        
+        ui.feedbackCorrect.classList.add('hidden');
+        ui.feedbackCorrect.classList.remove('flex');
+        ui.feedbackIncorrect.classList.add('hidden');
+        ui.feedbackIncorrect.classList.remove('flex');
+        
+        ui.btnAction.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-colors disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-2';
+        ui.btnAction.innerHTML = `<span>送出檢查 (Enter)</span>`;
+        checkInputState();
+      } 
+      else if (status === 'correct') {
+        ui.input.className += 'border-green-500 bg-green-50 text-green-700';
+        ui.input.disabled = true;
+        
+        ui.feedbackCorrect.classList.remove('hidden');
+        ui.feedbackCorrect.classList.add('flex');
+        ui.feedbackIncorrect.classList.add('hidden');
+        ui.feedbackIncorrect.classList.remove('flex');
+        
+        ui.btnAction.className = 'w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2';
+        ui.btnAction.innerHTML = `<span>${currentIndex < vocabData.length - 1 ? '下一個單字' : '查看成績'}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`;
+        ui.btnAction.disabled = false;
+      } 
+      else if (status === 'incorrect') {
+        ui.input.className += 'border-red-500 bg-red-50 text-red-700';
+        ui.input.disabled = true;
+        
+        ui.correctAnswerDisplay.textContent = currentWord.displayAnswer;
+        if (currentWord.base !== currentWord.displayAnswer) {
+          ui.baseWordDisplay.textContent = `(原形: ${currentWord.base})`;
+          ui.baseWordDisplay.classList.remove('hidden');
+        } else {
+          ui.baseWordDisplay.classList.add('hidden');
+        }
 
-        return `
-          <div class="relative bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 group">
-            <button data-action="speak" data-idx="${index}" class="absolute top-3 right-3 bg-white border border-gray-300 shadow-sm text-gray-600 hover:bg-indigo-100 hover:text-indigo-700 hover:border-indigo-300 px-3 py-1.5 rounded-full text-sm font-bold flex items-center gap-1 transition-all z-10">
-              🔊 播放段落
-            </button>
-            <p class="text-lg text-gray-800 leading-loose pt-10 sm:pt-0 sm:pr-28 relative break-words">
-              ${highlightedHtml}
-            </p>
-            
-            <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-end gap-2 sm:gap-3">
-              <span class="text-sm font-bold text-gray-500">🔊 語速:</span>
-              <input type="range" data-action="changeSpeed" min="0" max="3" step="1" value="${speedIndex}" class="w-24 sm:w-32 cursor-pointer">
-              <span class="speed-label text-sm font-bold text-indigo-700 w-10 text-right">${state.playbackSpeed}x</span>
-            </div>
-          </div>
-        `;
-      }).join('');
+        ui.feedbackIncorrect.classList.remove('hidden');
+        ui.feedbackIncorrect.classList.add('flex');
+        ui.feedbackCorrect.classList.add('hidden');
+        ui.feedbackCorrect.classList.remove('flex');
+        
+        ui.btnAction.className = 'w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2';
+        ui.btnAction.innerHTML = `<span>${currentIndex < vocabData.length - 1 ? '下一個單字' : '查看成績'}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`;
+        ui.btnAction.disabled = false;
+      }
+    }
 
-      let voiceOptionsHtml = '';
-      if (availableVoices.length === 0) {
-        voiceOptionsHtml = '<option value="">載入中... (若無聲請以 Safari/Chrome 開啟)</option>';
+    // 渲染例句（處理填空底線）
+    function renderSentence(word) {
+      const parts = word.sentence.split('_____');
+      let html = '';
+      
+      parts.forEach((part, i) => {
+        html += `<span>${part}</span>`;
+        if (i !== parts.length - 1) {
+          let innerText = '_____';
+          let spanClass = 'inline-block px-2 text-slate-400 border-b-2 border-slate-300 min-w-[80px] text-center font-mono';
+          
+          if (status === 'correct') {
+            innerText = word.displayAnswer;
+            spanClass += ' text-green-600 font-bold border-green-500';
+          } else if (status === 'incorrect') {
+            innerText = ui.input.value || '?';
+            spanClass += ' text-red-500 font-bold border-red-500';
+          }
+          
+          html += `<span class="${spanClass}">${innerText}</span>`;
+        }
+      });
+      
+      ui.sentence.innerHTML = html;
+    }
+
+    // 檢查輸入框狀態（是否為空）
+    function checkInputState() {
+      if (status === 'playing') {
+        ui.btnAction.disabled = ui.input.value.trim() === '';
+      }
+    }
+
+    // 驗證答案
+    function checkAnswer() {
+      if (!ui.input.value.trim()) return;
+      
+      const currentWord = vocabData[currentIndex];
+      const inputVal = ui.input.value.trim().toLowerCase();
+      
+      const isCorrect = currentWord.answers.some(ans => ans.toLowerCase() === inputVal);
+
+      if (isCorrect) {
+        status = 'correct';
+        score++;
+        speak(currentWord.displayAnswer);
       } else {
-        voiceOptionsHtml = availableVoices.map(v => 
-          `<option value="${v.voiceURI}" ${state.selectedVoiceURI === v.voiceURI ? 'selected' : ''}>${v.name}</option>`
-        ).join('');
-      }
-
-      return `
-        <div class="max-w-4xl w-full mx-auto mt-4 sm:mt-8 p-5 sm:p-8 bg-white rounded-2xl shadow-xl border-t-8 border-yellow-400">
-          <div class="text-center mb-6">
-            <span class="bg-yellow-100 text-yellow-800 font-bold px-3 py-1 rounded-full text-sm mb-3 inline-block">考前預習模式</span>
-            <h2 class="text-2xl sm:text-3xl font-black text-gray-800">${state.topic.title}</h2>
-            <p class="text-gray-500 mt-2">請先閱讀完整句子，點擊右上方喇叭可聆聽發音。</p>
-          </div>
-
-          <div class="flex justify-center items-center gap-4 mb-6 bg-white p-3 rounded-xl border border-gray-200 shadow-sm mx-auto max-w-md">
-            <div class="flex items-center gap-2 w-full">
-              <span class="text-sm font-bold text-gray-500 shrink-0">🗣️ 更換語音:</span>
-              <select data-action="changeVoice" class="flex-1 p-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none truncate bg-white">
-                ${voiceOptionsHtml}
-              </select>
-            </div>
-          </div>
-
-          <div class="flex justify-center mb-8">
-            <button data-action="startQuiz" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-full shadow-md transition-all transform hover:scale-105 text-lg">
-              👉 我準備好了，開始測驗！
-            </button>
-          </div>
-
-          <div class="mb-8">
-            ${paragraphsHtml}
-          </div>
-
-          <div class="flex justify-center mt-8 border-t pt-8 border-gray-100">
-            <button data-action="startQuiz" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-all transform hover:scale-105 text-xl">
-              👉 閱讀完畢，開始測驗！
-            </button>
-          </div>
-        </div>
-      `;
-    };
-
-    const renderPlaying = () => {
-      const parts = state.topic.content.split(/(___\d+___)/g);
-      const articleHtml = parts.map(part => {
-        const match = part.match(/___(\d+)___/);
-        if (match) {
-          const blankId = parseInt(match[1], 10);
-          const answer = state.answers[blankId];
-          const isActive = state.activeBlankId === blankId;
-          
-          let btnClass = "mx-1 my-1 px-3 py-0.5 rounded-md min-w-[3.5rem] font-bold transition-all duration-200 border-b-2 ";
-          if (isActive) btnClass += "bg-indigo-600 text-white border-indigo-800 shadow-md transform scale-110";
-          else if (answer) btnClass += "bg-indigo-100 text-indigo-800 border-indigo-400 hover:bg-indigo-200";
-          else btnClass += "bg-gray-100 text-gray-400 border-gray-400 hover:bg-gray-200";
-          
-          const text = answer ? answer : (isActive ? '選擇中...' : '____');
-          return `<button data-action="blank" data-id="${blankId}" class="${btnClass}">${text}</button>`;
-        }
-        return part.replace(/\n/g, '<br><br>');
-      }).join('');
-
-      const usedWords = Object.values(state.answers);
-      const filledCount = Object.keys(state.answers).length;
-      const totalCount = state.topic.blanks.length;
-
-      const wordBankHtml = state.wordBank.map((word, idx) => {
-        const countInAnswers = usedWords.filter(w => w === word).length;
-        const countInBank = state.wordBank.slice(0, idx + 1).filter(w => w === word).length;
-        const isUsed = countInBank <= countInAnswers;
-        
-        let btnClass = "px-3 py-2 rounded-lg font-bold text-sm transition-all ";
-        let disabledAttr = "";
-
-        if (isUsed) {
-          btnClass += "bg-gray-200 text-gray-400 opacity-60 cursor-not-allowed line-through";
-          disabledAttr = "disabled";
-        } else if (state.activeBlankId !== null) {
-          btnClass += "bg-white text-indigo-700 border-2 border-indigo-200 hover:border-indigo-500 hover:bg-indigo-50 shadow-sm active:scale-95";
-        } else {
-          btnClass += "bg-white text-gray-400 border-2 border-gray-100 cursor-not-allowed";
-          disabledAttr = "disabled";
-        }
-
-        return `<button data-action="${isUsed ? '' : 'word'}" data-word="${word}" ${disabledAttr} class="${btnClass}">${word}</button>`;
-      }).join('');
-
-      const submitBtnClass = filledCount === totalCount 
-        ? 'bg-green-500 hover:bg-green-600 text-white animate-bounce' 
-        : 'bg-indigo-600 hover:bg-indigo-700 text-white';
-      const submitText = filledCount === totalCount ? '確認交卷 ✅' : '提早交卷 (尚未作答完畢)';
-
-      return `
-        <div class="max-w-7xl w-full mx-auto mt-2 sm:mt-8 bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col h-[92vh] sm:h-[85vh] border border-gray-200">
-          <div class="bg-indigo-50 p-3 sm:p-4 border-b border-indigo-100 shrink-0">
-            <div class="flex justify-between items-center mb-1 sm:mb-2">
-              <h2 class="text-sm sm:text-base font-bold text-indigo-800 truncate pr-2">${state.topic.title}</h2>
-              <span class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap shrink-0">
-                進度: ${filledCount} / ${totalCount}
-              </span>
-            </div>
-            <p class="text-xs sm:text-sm text-indigo-600 font-medium">
-              💡 玩法：1. 點擊文章空格 👉 2. 從右方/下方選擇單字。 (點擊已填空格可取消)
-            </p>
-          </div>
-          
-          <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
-            <!-- 左欄：文章區塊 (加上 id="article-container" 讓程式能記住捲軸位置) -->
-            <div id="article-container" class="flex-1 p-4 sm:p-8 overflow-y-auto text-base sm:text-lg text-gray-800 font-medium leading-loose bg-white break-words">
-              ${articleHtml}
-            </div>
-
-            <!-- 右欄/下欄：單字庫 (加上 id="wordbank-container") -->
-            <div id="wordbank-container" class="w-full md:w-1/3 lg:w-[350px] bg-slate-50 p-4 sm:p-6 border-t-4 md:border-t-0 md:border-l-4 border-slate-200 shrink-0 overflow-y-auto flex flex-col shadow-inner max-h-[35vh] md:max-h-none">
-              <h3 class="text-indigo-800 font-bold mb-3 hidden md:flex items-center gap-2">
-                <span>🗂️</span> 單字庫 (Word Bank)
-              </h3>
-              <div class="flex flex-wrap gap-2 sm:gap-3">
-                ${wordBankHtml}
-              </div>
-              <div class="mt-6 md:mt-auto pt-4 flex justify-center border-t border-slate-200 md:border-none">
-                <button data-action="submit" class="w-full py-3 rounded-xl font-bold text-lg shadow-md transition-all ${submitBtnClass}">
-                  ${submitText}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    };
-
-    const renderResults = () => {
-      const finalScore = calculateScore();
-      const isHighScore = finalScore >= 80;
-      const incorrectBlanks = state.topic.blanks.filter(b => state.answers[b.id] !== b.correct);
-
-      let confettiHtml = '';
-      if (isHighScore) {
-        confettiHtml = '<div class="fixed inset-0 pointer-events-none overflow-hidden z-50">';
-        const emojis = ['🎉', '✨', '🏆', '💯', '🔥'];
-        for (let i = 0; i < 50; i++) {
-          const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-          const left = Math.random() * 100;
-          const delay = Math.random() * 3;
-          const duration = 2 + Math.random() * 3;
-          confettiHtml += `<div class="absolute text-3xl animate-confetti" style="left: ${left}vw; animation-delay: ${delay}s; animation-duration: ${duration}s;">${emoji}</div>`;
-        }
-        confettiHtml += '</div>';
-      }
-
-      let errorsHtml = '';
-      if (incorrectBlanks.length > 0) {
-        const errorListHtml = incorrectBlanks.map(b => {
-          const parts = state.topic.content.split(/(?<=[.!?])\s+/);
-          const targetTag = `___${b.id}___`;
-          const sentence = parts.find(p => p.includes(targetTag)) || "...";
-          const contextHtml = sentence.split(targetTag).map((s, i, arr) => {
-            return s + (i < arr.length - 1 ? `<span class="text-green-600 font-bold bg-green-100 px-1 rounded mx-1 underline">${b.correct}</span>` : '');
-          }).join('');
-
-          const userAnswer = state.answers[b.id] || '(未作答)';
-
-          return `
-            <div class="bg-red-50 rounded-xl p-5 border border-red-100">
-              <div class="mb-3 text-gray-700 text-base sm:text-lg leading-relaxed break-words">
-                <span class="font-bold text-gray-500 mr-2 block sm:inline mb-1">原句片段：</span>
-                ${contextHtml}
-              </div>
-              <div class="flex flex-col sm:flex-row gap-4 mb-4">
-                <div class="bg-white px-4 py-3 rounded-lg border border-red-200 flex-1">
-                  <span class="text-sm text-gray-500 block mb-1">您的答案 ❌</span>
-                  <span class="text-red-600 font-bold text-lg line-through">${userAnswer}</span>
-                </div>
-                <div class="bg-white px-4 py-3 rounded-lg border border-green-200 flex-1">
-                  <span class="text-sm text-gray-500 block mb-1">正確答案 ✅</span>
-                  <span class="text-green-600 font-bold text-lg">${b.correct}</span>
-                </div>
-              </div>
-              <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                <span class="font-bold text-indigo-700 block mb-1">💡 解析說明：</span>
-                <span class="text-gray-700">${b.explanation}</span>
-              </div>
-            </div>
-          `;
-        }).join('');
-
-        errorsHtml = `
-          <div class="mb-10">
-            <h3 class="text-2xl font-black text-red-600 mb-6 flex items-center gap-2 border-l-4 border-red-500 pl-3">
-              📝 錯誤題目解析
-            </h3>
-            <div class="space-y-6">
-              ${errorListHtml}
-            </div>
-          </div>
-        `;
-      }
-
-      const scoreColor = isHighScore ? 'text-green-500' : 'text-indigo-600';
-      const summaryText = incorrectBlanks.length === 0 
-        ? '🏆 太神啦！完美全對！' 
-        : `您答對了 ${state.topic.blanks.length - incorrectBlanks.length} 題，答錯了 ${incorrectBlanks.length} 題`;
-
-      return `
-        <div class="max-w-4xl w-full mx-auto mt-6 sm:mt-10 p-6 sm:p-10 bg-white rounded-2xl shadow-xl relative overflow-hidden">
-          ${confettiHtml}
-          <div class="text-center mb-10 border-b pb-8">
-            <h2 class="text-3xl sm:text-4xl font-black text-gray-800 mb-4">測驗結算 📊</h2>
-            <div class="text-6xl sm:text-8xl font-extrabold my-6 ${scoreColor}">
-              ${finalScore} <span class="text-2xl sm:text-4xl text-gray-400">分</span>
-            </div>
-            <p class="text-lg font-bold text-gray-600">${summaryText}</p>
-          </div>
-          ${errorsHtml}
-          <div class="text-center mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <button data-action="menu" class="px-8 py-4 bg-gray-800 hover:bg-gray-900 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl w-full sm:w-auto">
-              🏠 返回首頁
-            </button>
-            <button data-action="retry" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl w-full sm:w-auto">
-              🔄 再測一次
-            </button>
-          </div>
-        </div>
-      `;
-    };
-
-    // === 事件綁定 (Event Delegation) ===
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('button[data-action]');
-      if (!btn) return;
-
-      const action = btn.dataset.action;
-
-      if (action === 'goToPreview') {
-        const topicId = btn.dataset.topicId;
-        state.topic = quizData.find(t => t.id === topicId);
-        state.previewParagraphs = [];
-        state.screen = 'preview';
-        render();
-        window.scrollTo(0, 0);
+        status = 'incorrect';
       }
       
-      else if (action === 'speak') {
-        const idx = parseInt(btn.dataset.idx, 10);
-        const textToRead = state.previewParagraphs[idx];
-        if (textToRead) {
-          speakText(textToRead, btn);
-        }
+      updateGameUI();
+    }
+
+    // 進行下一題或結束
+    function nextWord() {
+      if (currentIndex < vocabData.length - 1) {
+        currentIndex++;
+        ui.input.value = '';
+        status = 'playing';
+        updateGameUI();
+      } else {
+        finishGame();
       }
+    }
 
-      else if (action === 'startQuiz') {
-        stopSpeaking();
-        state.answers = {};
-        state.activeBlankId = 0;
-        const words = state.topic.blanks.map(b => b.correct);
-        state.wordBank = shuffleArray(words);
-        state.screen = 'playing';
-        render();
-        window.scrollTo(0, 0);
+    // 結束遊戲
+    function finishGame() {
+      ui.finalScore.textContent = `${score} / ${vocabData.length}`;
+      
+      if (score === vocabData.length) {
+        ui.endMessage.className = "text-green-600 font-medium mb-8";
+        ui.endMessage.textContent = "太棒了！您答對了所有單字！ 🎉";
+      } else {
+        ui.endMessage.className = "text-slate-600 mb-8";
+        ui.endMessage.textContent = "繼續努力，多練習幾次一定會更進步！";
       }
+      
+      showScreen('end');
+    }
 
-      else if (action === 'blank') {
-        const blankId = parseInt(btn.dataset.id, 10);
-        state.activeBlankId = blankId;
-        if (state.answers[blankId]) {
-          delete state.answers[blankId];
+    // 重新開始
+    function restartGame() {
+      currentIndex = 0;
+      score = 0;
+      ui.input.value = '';
+      status = 'playing';
+      updateGameUI();
+      showScreen('game');
+    }
+
+    // 綁定事件監聽器
+    document.getElementById('btn-start').addEventListener('click', () => {
+      showScreen('game');
+      updateGameUI();
+    });
+
+    document.getElementById('btn-speak-word').addEventListener('click', () => {
+      speak(vocabData[currentIndex].base);
+    });
+
+    document.getElementById('btn-speak-sentence').addEventListener('click', () => {
+      const currentWord = vocabData[currentIndex];
+      speak(currentWord.sentence.replace('_____', currentWord.displayAnswer));
+    });
+
+    ui.input.addEventListener('input', checkInputState);
+    
+    ui.input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        if (status === 'playing' && !ui.btnAction.disabled) {
+          checkAnswer();
+        } else if (status === 'correct' || status === 'incorrect') {
+          nextWord();
         }
-        render();
-      }
-
-      else if (action === 'word') {
-        if (state.activeBlankId === null) return;
-        const word = btn.dataset.word;
-        
-        state.answers[state.activeBlankId] = word;
-
-        const blanks = state.topic.blanks;
-        let nextBlankId = null;
-        for (let i = state.activeBlankId + 1; i < blanks.length; i++) {
-          if (!state.answers[i] && state.answers[i] !== word) {
-            nextBlankId = i;
-            break;
-          }
-        }
-        if (nextBlankId === null) {
-          for (let i = 0; i < state.activeBlankId; i++) {
-            if (!state.answers[i] && state.answers[i] !== word) {
-              nextBlankId = i;
-              break;
-            }
-          }
-        }
-        state.activeBlankId = nextBlankId;
-        render();
-
-        // 平滑捲動到下一個空格
-        if (nextBlankId !== null) {
-            setTimeout(() => {
-                const nextBtn = document.querySelector(`button[data-id="${nextBlankId}"]`);
-                const articleEl = document.getElementById('article-container');
-                if (nextBtn && articleEl) {
-                    const btnRect = nextBtn.getBoundingClientRect();
-                    const containerRect = articleEl.getBoundingClientRect();
-                    if (btnRect.top < containerRect.top || btnRect.bottom > containerRect.bottom) {
-                        nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }
-            }, 50); 
-        }
-      }
-
-      else if (action === 'submit') {
-        const isComplete = Object.keys(state.answers).length === state.topic.blanks.length;
-        
-        if (!isComplete) {
-          if (btn.dataset.warned !== 'true') {
-            btn.dataset.warned = 'true';
-            btn.innerHTML = '⚠️ 還有空格未填！確定要交卷？(再按一次)';
-            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-            btn.classList.add('bg-red-500', 'hover:bg-red-600', 'animate-pulse');
-            return;
-          }
-        }
-
-        stopSpeaking();
-        state.screen = 'results';
-        render();
-        window.scrollTo(0, 0);
-      }
-
-      else if (action === 'menu') {
-        stopSpeaking();
-        state.screen = 'menu';
-        state.topic = null;
-        render();
-        window.scrollTo(0, 0);
-      }
-
-      else if (action === 'retry') {
-        stopSpeaking();
-        state.answers = {};
-        state.activeBlankId = 0;
-        const words = state.topic.blanks.map(b => b.correct);
-        state.wordBank = shuffleArray(words);
-        state.screen = 'playing';
-        render();
-        window.scrollTo(0, 0);
       }
     });
 
-    document.addEventListener('input', (e) => {
-      if (e.target.dataset.action === 'changeSpeed') {
-        const val = parseInt(e.target.value, 10);
-        state.playbackSpeed = speedMap[val];
-        
-        document.querySelectorAll('input[data-action="changeSpeed"]').forEach(slider => {
-          slider.value = val;
-        });
-        document.querySelectorAll('.speed-label').forEach(label => {
-          label.textContent = state.playbackSpeed + 'x';
-        });
-
-        stopSpeaking();
+    ui.btnAction.addEventListener('click', () => {
+      if (status === 'playing') {
+        checkAnswer();
+      } else {
+        nextWord();
       }
     });
 
-    document.addEventListener('change', (e) => {
-      if (e.target.dataset.action === 'changeVoice') {
-        state.selectedVoiceURI = e.target.value;
-        stopSpeaking(); 
-      }
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-       render();
-    });
+    document.getElementById('btn-restart').addEventListener('click', restartGame);
 
   </script>
 </body>
